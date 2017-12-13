@@ -1,15 +1,38 @@
-package com.sample;
+package com.liangyi.entity;
 
-
+/**
+ * 商品评价表
+ */
 public class Comment {
 
   private long id;
+  /**
+   * 商品ID
+   */
   private long goodsId;
+  /**
+   *订单ID
+   */
   private long orderId;
+  /**
+   *评论内容
+   */
   private String content;
+  /**
+   *用户ID
+   */
   private long userId;
+  /**
+   *商品规格
+   */
   private String spec;
+  /**
+   *添加时间
+   */
   private long addTime;
+  /**
+   *评分 0-5
+   */
   private long star;
 
 

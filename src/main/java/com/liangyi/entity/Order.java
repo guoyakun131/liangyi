@@ -1,18 +1,50 @@
 package com.liangyi.entity;
 
-
+/**
+ * 订单表
+ */
 public class Order {
 
   private long id;
+  /**
+   *总金额
+   */
   private double sum;
+  /**
+   *留言
+   */
   private String des;
+  /**
+   *是否短信通知 0 否 1 是
+   */
   private long isSms;
+  /**
+   *运费
+   */
   private double express;
+  /**
+   *用户ID
+   */
   private long userId;
+  /**
+   *收货地址ID
+   */
   private long addressId;
+  /**
+   *添加时间
+   */
   private long addTime;
+  /**
+   *订单编号
+   */
   private String orderNum;
+  /**
+   *0 待付款 1 待发货 2 待收货 3 待评价 4 已完成 5 取消 6 已删除
+   */
   private long status;
+  /**
+   *运单编号
+   */
   private String expressNum;
 
 

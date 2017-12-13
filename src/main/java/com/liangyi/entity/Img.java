@@ -1,12 +1,26 @@
 package com.liangyi.entity;
 
-
+/**
+ * 图片表
+ */
 public class Img {
 
   private long id;
+  /**
+   * 图片类型 1 商品图片 2 评论图片
+   */
   private long type;
+  /**
+   * 图片类型ID
+   */
   private long keyId;
+  /**
+   *图片url
+   */
   private String img;
+  /**
+   * 添加时间
+   */
   private long addTime;
 
 

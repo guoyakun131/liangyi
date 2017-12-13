@@ -1,13 +1,26 @@
 package com.liangyi.entity;
 
-
+/**
+ * 购物车
+ */
 public class Cart {
 
   private long id;
+
   private long userId;
+    /**
+     *商品ID
+     */
   private long goodsId;
+    /**
+     *规格
+     */
   private String spec;
+    /**
+     *用户ID
+     */
   private long nums;
+
   private long addTime;
 
 

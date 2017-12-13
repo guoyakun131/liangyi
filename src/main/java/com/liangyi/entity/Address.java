@@ -1,17 +1,50 @@
 package com.liangyi.entity;
 
+/**
+ * 收货地址表
+ */
 public class Address {
 
   private long id;
+  /**
+   * 用户ID
+   */
   private long userId;
+  /**
+   * 收货人姓名
+   */
   private String name;
+  /**
+   * 手机号
+   */
   private String mobile;
+  /**
+   * 省
+   */
   private String province;
+  /**
+   *市
+   */
   private String city;
+  /**
+   *区
+   */
   private String dis;
+  /**
+   *详细地址
+   */
   private String detail;
+  /**
+   *邮政编码
+   */
   private String code;
+  /**
+   *添加时间
+   */
   private long addTime;
+  /**
+   *0 未选中 1 选中
+   */
   private long sel;
 
 

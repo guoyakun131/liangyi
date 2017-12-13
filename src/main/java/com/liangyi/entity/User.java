@@ -1,12 +1,28 @@
 package com.liangyi.entity;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
+/**
+ * 用户表
+ */
 public class User {
 
   private long id;
+  /**
+   * 头像url
+   */
   private String avatar;
+  /**
+   *昵称
+   */
   private String nickName;
+  /**
+   *微信唯一标识
+   */
   private String openId;
+  /**
+   *创建时间
+   */
   private long addTime;
 
 

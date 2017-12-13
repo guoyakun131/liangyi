@@ -1,11 +1,22 @@
 package com.liangyi.entity;
 
-
+/**
+ * 管理员表
+ */
 public class Admin {
 
   private long id;
+  /**
+   *用户名
+   */
   private String username;
+  /**
+   *密码
+   */
   private String password;
+  /**
+   *姓名
+   */
   private String name;
 
 
