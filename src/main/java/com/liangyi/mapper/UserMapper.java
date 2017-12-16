@@ -18,6 +18,15 @@ public interface UserMapper {
     List<User> user ();
 
     /**
+     *查询用户是否存在
+     * @param openid
+     * @return
+     */
+    @Select("select open_id from user where open_id = #{openid}")
+    String selectUser(@Param("openid")String openid);
+
+
+    /**
      * 添加用户到数据库
      * @param avatar
      * @param nick_name

@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 @Configuration
+@Primary //在同样的DataSource中，首先使用被标注的DataSource
 public class DruidDBConfig {
     private Logger logger = LoggerFactory.getLogger(DruidDBConfig.class);
 
@@ -69,7 +70,6 @@ public class DruidDBConfig {
     private String connectionProperties;
 
     @Bean     //声明其为Bean实例
-    @Primary  //在同样的DataSource中，首先使用被标注的DataSource
     public DataSource dataSource(){
         DruidDataSource datasource = new DruidDataSource();
 
