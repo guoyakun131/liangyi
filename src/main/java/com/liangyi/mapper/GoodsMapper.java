@@ -12,11 +12,19 @@ public interface GoodsMapper {
 
 
     /**
-     * 按分页查询商品列表，每次查10条
+     * 分类查询商品
+     * @param type
      * @return
      */
-    @Select("SELECT * from goods order by id desc LIMIT #{page_end},#{page_start}")
-    List<Goods> queryGoods(@Param("page_end")int page_end,@Param("page_start")int page_start);
+    @Select("SELECT id,img,name,price from goods where type = #{type} order by id desc")
+    List<Goods> queryGoods(@Param("type")int type);
+
+    /**
+     * 所有商品列表
+     * @return
+     */
+    @Select("SELECT id,img,name,price from goods order by id desc")
+    List<Goods> queryGoodsList();
     /**
      * 查询所有商品数量
      * @return
@@ -37,4 +45,12 @@ public interface GoodsMapper {
      */
     @Select("SELECT COUNT(*) from goods WHERE type = 2")
     int queryGoodsHot();
+
+    /**
+     * 按id查询商品详情
+     * @param id
+     * @return
+     */
+    @Select("SELECT id,name,price,express,nums,spec,content,img from goods where id = #{id}")
+    Goods goodsContent(int id);
 }

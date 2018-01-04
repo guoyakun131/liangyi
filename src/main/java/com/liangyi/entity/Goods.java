@@ -1,5 +1,7 @@
 package com.liangyi.entity;
 
+import java.util.List;
+
 /**
  * 商品表
  */
@@ -47,6 +49,7 @@ public class Goods {
    */
   private String spec;
 
+  private List<Img> imgs;
 
   public long getId() {
     return id;
@@ -146,4 +149,11 @@ public class Goods {
     this.spec = spec;
   }
 
+  public List<Img> getImgs() {
+    return imgs;
+  }
+
+  public void setImgs(List<Img> imgs) {
+    this.imgs = imgs;
+  }
 }

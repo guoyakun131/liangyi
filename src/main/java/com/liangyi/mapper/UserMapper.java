@@ -34,6 +34,6 @@ public interface UserMapper {
      * @param add_time
      */
     @Insert("INSERT into user (avatar,nick_name,open_id,add_time) VALUES (#{avatar},#{nick_name},#{open_id},#{add_time})")
-    void addUser(@Param("avatar")String avatar, @Param("nick_name")String nick_name, @Param("open_id")String open_id, @Param("add_time")int add_time);
+    void addUser(@Param("avatar")String avatar, @Param("nick_name")String nick_name, @Param("open_id")String open_id, @Param("add_time")int add_time,@Param("add_time")String session_id);
 
 }

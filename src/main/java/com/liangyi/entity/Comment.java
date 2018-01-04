@@ -35,7 +35,6 @@ public class Comment {
    */
   private long star;
 
-
   public long getId() {
     return id;
   }

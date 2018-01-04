@@ -44,7 +44,7 @@ public class UserService {
      * @param open_id
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void addUser(String avatar, String nick_name, String open_id) {
+    public void addUser(String avatar, String nick_name, String open_id,String session_id) {
             //系统时间
             Date d = new Date();
             //格式化
@@ -52,7 +52,7 @@ public class UserService {
             //转int
             int add_time = Integer.valueOf(sdf.format(d).toString());
             //添加到数据库
-            userMapper.addUser(avatar, nick_name, open_id, add_time);
+            userMapper.addUser(avatar, nick_name, open_id, add_time,session_id);
     }
 
 }
