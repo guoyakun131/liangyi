@@ -1,6 +1,5 @@
 package com.liangyi.mapper;
 
-import com.liangyi.entity.Comment;
 import com.liangyi.entity.UserComment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

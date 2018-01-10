@@ -6,7 +6,9 @@ package com.liangyi.entity;
 public class Cart {
 
   private long id;
-
+  /**
+   *用户ID
+   */
   private long userId;
     /**
      *商品ID
@@ -16,9 +18,7 @@ public class Cart {
      *规格
      */
   private String spec;
-    /**
-     *用户ID
-     */
+
   private long nums;
 
   private long addTime;

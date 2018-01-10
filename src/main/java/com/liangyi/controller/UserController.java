@@ -3,7 +3,6 @@ package com.liangyi.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liangyi.Utils.HttpUtil;
-import com.liangyi.Utils.MD5Tools;
 import com.liangyi.config.Config;
 import com.liangyi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,6 +60,9 @@ public class UserController {
             if (!userService.isUser(open_id)) {
                 //添加用户
                 userService.addUser(avatar, nick_name, open_id,session_id);
+            }else{
+                //更新用户
+                userService.updateUser(avatar, nick_name,session_id,open_id);
             }
             map.put("isError",true);
             map.put("session_id",session_id);

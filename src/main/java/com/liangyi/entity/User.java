@@ -1,13 +1,12 @@
 package com.liangyi.entity;
 
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 /**
  * 用户表
  */
 public class User {
 
-  private long id;
+  private int id;
   /**
    * 头像url
    */
@@ -25,15 +24,15 @@ public class User {
    */
   private long addTime;
 
+  private String sessionkey;
 
-  public long getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(long id) {
+  public void setId(int id) {
     this.id = id;
   }
-
 
   public String getAvatar() {
     return avatar;
@@ -70,4 +69,11 @@ public class User {
     this.addTime = addTime;
   }
 
+  public String getSessionkey() {
+    return sessionkey;
+  }
+
+  public void setSessionkey(String sessionkey) {
+    this.sessionkey = sessionkey;
+  }
 }
