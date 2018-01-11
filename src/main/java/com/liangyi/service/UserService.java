@@ -2,6 +2,7 @@ package com.liangyi.service;
 
 
 import com.liangyi.entity.User;
+import com.liangyi.mapper.AddressMapper;
 import com.liangyi.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ public class UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private AddressMapper addressMapper;
 
     public List<User> user() {
         return userMapper.user();
@@ -78,6 +82,27 @@ public class UserService {
      */
     public int userId(String session_id) {
         User user = userMapper.userId(session_id);
-       return user.getId();
+        return user.getId();
+    }
+
+    /**
+     * 选择收货地址
+     *
+     * @param session_id
+     * @param addr_id
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean saveAddrSel(int addr_id, String session_id) {
+        try {
+            //先取消原来的选择
+            addressMapper.saveAddrCancel(session_id);
+            //从新选择
+            addressMapper.saveAddrSel(addr_id, session_id);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

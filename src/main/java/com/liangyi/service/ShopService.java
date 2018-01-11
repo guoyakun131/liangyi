@@ -3,12 +3,11 @@ package com.liangyi.service;
 import com.liangyi.entity.Address;
 import com.liangyi.entity.Goods;
 import com.liangyi.entity.UserComment;
-import com.liangyi.mapper.AddressMapper;
-import com.liangyi.mapper.CommentMapper;
-import com.liangyi.mapper.GoodsMapper;
-import com.liangyi.mapper.ImgMapper;
+import com.liangyi.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +27,9 @@ public class ShopService {
 
     @Autowired
     private AddressMapper addressMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 查询首页Tab显示的数字
@@ -106,6 +108,25 @@ public class ShopService {
     }
 
     /**
+     * 收货地址列表
+     *
+     * @param sessionId
+     * @return
+     */
+    public Map<String, Object> findAddressList(String sessionId) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            List<Address> addressList = addressMapper.findAddressList(sessionId);
+            map.put("result", addressList);
+            map.put("isError", true);
+        } catch (Exception e) {
+            map.put("isError", false);
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+    /**
      * 订单确认商品查询
      *
      * @param cartSel
@@ -114,5 +135,81 @@ public class ShopService {
      */
     public List<Goods> cartListSel(String cartSel, String sessionId) {
         return goodsMapper.cartListSel(cartSel, sessionId);
+    }
+
+    /**
+     * 收货详情
+     *
+     * @param id
+     * @return
+     */
+    public Map<String, Object> addrInfo(int id) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            Address addressInfo = addressMapper.addrInfo(id);
+            map.put("result", addressInfo);
+            map.put("isError", true);
+        } catch (Exception e) {
+            map.put("isError", false);
+            e.printStackTrace();
+        }
+        ;
+        return map;
+    }
+
+    /**
+     * 保存修改收货详情
+     *
+     * @param address
+     * @param sessionkey
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean editAddr(Address address, String sessionkey) {
+        try {
+            addressMapper.editAddr(address, sessionkey);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 删除收货详情
+     *
+     * @param id
+     * @param sessionkey
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean delAddress(int id, String sessionkey) {
+        try {
+            addressMapper.delAddress(id, sessionkey);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 添加收货详情
+     *
+     * @param sessionkey
+     * @param address
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean addAddress(String sessionkey, Address address) {
+        try {
+            address.setUserId(userMapper.userId(sessionkey).getId());
+            System.out.println(address.getUserId());
+            addressMapper.addAddress(address);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

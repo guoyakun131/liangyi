@@ -6,6 +6,7 @@ import com.liangyi.Utils.HttpUtil;
 import com.liangyi.config.Config;
 import com.liangyi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +29,8 @@ public class UserController {
 
     /**
      * 登陆
-     *  @param request
+     *
+     * @param request
      * @param response
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -59,19 +61,19 @@ public class UserController {
             //判断用户是否存在
             if (!userService.isUser(open_id)) {
                 //添加用户
-                userService.addUser(avatar, nick_name, open_id,session_id);
-            }else{
+                userService.addUser(avatar, nick_name, open_id, session_id);
+            } else {
                 //更新用户
-                userService.updateUser(avatar, nick_name,session_id,open_id);
+                userService.updateUser(avatar, nick_name, session_id, open_id);
             }
-            map.put("isError",true);
-            map.put("session_id",session_id);
-            return  map;
+            map.put("isError", true);
+            map.put("session_id", session_id);
+            return map;
         }
-        map.put("isError",false);
-        map.put("errcode",errcode);
-        map.put("errorMessage",ermsg);
-        return  map;
+        map.put("isError", false);
+        map.put("errcode", errcode);
+        map.put("errorMessage", ermsg);
+        return map;
     }
 
 //    /**
@@ -137,4 +139,17 @@ public class UserController {
 //        map.put("errorMessage",ermsg);
 //        return  map;
 //    }
+
+    /**
+     * 选择收货地址
+     * @param session_id
+     * @param addr_id
+     * @return
+     */
+    @PostMapping("save_addr_sel")
+    public Map<String, Object> saveAddrSel(String session_id, int addr_id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("isError", userService.saveAddrSel(addr_id, session_id));
+        return map;
+    }
 }

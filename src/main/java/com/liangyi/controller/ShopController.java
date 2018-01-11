@@ -5,10 +5,7 @@ import com.liangyi.entity.Goods;
 import com.liangyi.entity.UserComment;
 import com.liangyi.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -79,6 +76,7 @@ public class ShopController {
 
     /**
      * 订单确认初始化
+     *
      * @param request
      * @return
      */
@@ -91,11 +89,90 @@ public class ShopController {
         String cartSel = request.getParameter("cart_sel");
 
         System.out.println("cart_sel" + cartSel);
-        Address address = shopService.addrSel(sessionId);
-        List<Goods> goods = shopService.cartListSel(cartSel, sessionId);
-        map.put("isError", true);
-        map.put("addr_sel", address);
-        map.put("cart_list_sel", goods);
+        try {
+            Address address = shopService.addrSel(sessionId);
+            List<Goods> goodsList = shopService.cartListSel(cartSel, sessionId);
+            double price = 0;
+            //double expressSum = 0;
+            for (Goods goods : goodsList) {
+                price += goods.getPrice() * goods.getNums();
+                // expressSum += goods.getExpress();
+            }
+            System.out.println("price" + price);
+            map.put("isError", true);
+            map.put("addr_sel", address);
+            map.put("cart_list_sel", goodsList);
+            map.put("goods_sum", price);
+            //map.put("express_sum", expressSum);
+            map.put("all_sum", price);
+        } catch (Exception e) {
+            map.put("isError", false);
+            e.printStackTrace();
+        }
         return map;
     }
+
+    /**
+     * 收货地址列表
+     *
+     * @param session_id
+     * @return
+     */
+    @PostMapping("addr_list")
+    public Map<String, Object> addrList(String session_id) {
+        return shopService.findAddressList(session_id);
+    }
+
+    /**
+     * 收货详情
+     *
+     * @param addr_id
+     * @return
+     */
+    @PostMapping("get_addr_info")
+    public Map<String, Object> getAddrInfo(int addr_id) {
+        return shopService.addrInfo(addr_id);
+    }
+
+    /**
+     * 保存修改的收货详情
+     *
+     * @param address
+     * @param session_id
+     * @return
+     */
+    @PostMapping("edit_addr")
+    public Map<String, Object> editAddr(Address address, String session_id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("isError", shopService.editAddr(address, session_id));
+        return map;
+    }
+
+    /**
+     * 新增收货详情
+     * @param address
+     * @param session_id
+     * @return
+     */
+    @PostMapping("add_addr")
+    public Map<String, Object> addAddr(Address address, String session_id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("isError", shopService.addAddress(session_id,address));
+        return map;
+    }
+
+    /**
+     * 删除收货详情
+     *
+     * @param address_id
+     * @param session_id
+     * @return
+     */
+    @PostMapping("del_address")
+    public Map<String, Object> delAddress(int address_id, String session_id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("isError", shopService.delAddress(address_id, session_id));
+        return map;
+    }
+
 }

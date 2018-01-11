@@ -60,6 +60,6 @@ public interface GoodsMapper {
      * @param sessionId
      * @return
      */
-    @Select("select g.img,g.name,c.spec,g.price,c.nums from cart c,goods g,user u WHERE c.user_id = u.id and c.goods_id = g.id and c.id in(${cartSel}) and u.id IN (SELECT id FROM USER WHERE sessionkey = #{sessionId})")
+    @Select("select g.img,g.name,c.spec,g.price,c.nums,g.express from cart c,goods g,user u WHERE c.user_id = u.id and c.goods_id = g.id and c.id in(${cartSel}) and u.id IN (SELECT id FROM USER WHERE sessionkey = #{sessionId})")
     List<Goods> cartListSel(@Param("cartSel")String cartSel, @Param("sessionId")String sessionId);
 }
