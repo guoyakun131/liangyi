@@ -1,5 +1,6 @@
 package com.liangyi.service;
 
+import com.liangyi.entity.Cart;
 import com.liangyi.entity.CartGoods;
 import com.liangyi.mapper.CartMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CartService {
@@ -18,6 +21,7 @@ public class CartService {
     @Autowired
     private UserService userService;
 
+
     /**
      * 按用户Id查询购物车列表
      *
@@ -26,22 +30,42 @@ public class CartService {
      */
     public List<CartGoods> cartList(String session_id) {
         int id = userService.userId(session_id);
+        System.out.println("uid" + id);
         return cartMapper.caetList(id);
+    }
+
+    /**
+     * 我的购物车数量
+     * @param session_id
+     * @return
+     */
+    public Map<String, Object> cartCount(String session_id) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            int cartCount = cartMapper.cartCount(session_id);
+            map.put("count", cartCount);
+            map.put("isError", true);
+            return map;
+        } catch (Exception e) {
+            map.put("isError", false);
+            e.printStackTrace();
+            return map;
+        }
+
     }
 
     /**
      * 加入购物车
      *
      * @param userId
-     * @param goods_id
-     * @param nums
-     * @param spec
+     * @param cart
+     * @return
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public boolean addCart(int userId, int goods_id, String spec, int nums, int add_time) {
+    public boolean addCart(int userId, Cart cart) {
         boolean isError;
         try {
-            cartMapper.addCart(userId, goods_id, spec, nums, add_time);
+            cartMapper.addCart(userId, cart);
             isError = true;
         } catch (Exception e) {
             isError = false;

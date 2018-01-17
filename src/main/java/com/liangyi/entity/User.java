@@ -1,9 +1,12 @@
 package com.liangyi.entity;
 
 
+import org.springframework.stereotype.Service;
+
 /**
  * 用户表
  */
+@Service
 public class User {
 
   private int id;

@@ -1,9 +1,8 @@
 package com.liangyi.service;
 
 
-import com.liangyi.entity.User;
-import com.liangyi.mapper.AddressMapper;
-import com.liangyi.mapper.UserMapper;
+import com.liangyi.entity.*;
+import com.liangyi.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -11,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -21,6 +22,15 @@ public class UserService {
 
     @Autowired
     private AddressMapper addressMapper;
+
+    @Autowired
+    private OrderMapper orderMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private OrderGoodsMapper orderGoodsMapper;
 
     public List<User> user() {
         return userMapper.user();
@@ -99,6 +109,105 @@ public class UserService {
             addressMapper.saveAddrCancel(session_id);
             //从新选择
             addressMapper.saveAddrSel(addr_id, session_id);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 订单列表
+     *
+     * @param status
+     * @param session_id
+     * @return
+     */
+    public Map<String, Object> orderList(int status, String session_id) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            if (status == 10) {
+                //得到userID
+                User userId = userMapper.userId(session_id);
+
+                //查询全部订单
+                List<Order> orderList = orderMapper.orderListAll(session_id);
+                for (Order order : orderList) {
+                    //按订单号查询订单中的商品
+                    List<OrderGoods> orderGoodsList = orderMapper.orderGoodsList(userId.getId(), order.getOrderNum());
+                    order.setOrderGoodsList(orderGoodsList);
+                }
+                map.put("result", orderList);
+            } else {
+                //得到userID
+                User userId = userMapper.userId(session_id);
+
+                //按状态查询订单列表
+                List<Order> orderList = orderMapper.orderList(status, session_id);
+                for (Order order : orderList) {
+                    //按订单号查询订单中的商品
+                    List<OrderGoods> orderGoodsList = orderMapper.orderGoodsList(userId.getId(), order.getOrderNum());
+                    order.setOrderGoodsList(orderGoodsList);
+                }
+                map.put("result", orderList);
+            }
+            map.put("isError", true);
+            return map;
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("isError", false);
+            return map;
+        }
+    }
+
+    /**
+     * 订单操作
+     *
+     * @param session_id
+     * @param type
+     * @param order_id
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Map<String, Object> changeOrderStatus(String session_id, int type, int order_id) {
+        Map<String, Object> map = new HashMap<>();
+        try {
+            User user = userMapper.userId(session_id);
+            if (type == 0 || type == 1) {
+                orderMapper.changeOrderStatus(order_id, user.getId(), 5);
+                map.put("status", 5);
+            } else if (type == 2) {
+                orderMapper.changeOrderStatus(order_id, user.getId(), 3);
+                map.put("status", 3);
+            } else if (type == 3) {
+                orderMapper.changeOrderStatus(order_id, user.getId(), 6);
+                map.put("status", 6);
+            }
+            map.put("isError", true);
+
+            return map;
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("isError", false);
+            return map;
+        }
+
+    }
+
+    /**
+     * 添加评论
+     *
+     * @param comment
+     * @return
+     */
+    public boolean addGoodsComment(Comment comment, String session_id) {
+        try {
+
+            comment.setGoodsId(orderGoodsMapper.goodsId((int) comment.getGoodsId()));
+            User user = userMapper.userId(session_id);
+            comment.setUserId(user.getId());
+            commentMapper.addGoodsComment(comment);
+            orderMapper.changeOrderStatus((int) comment.getOrderId(), (int) comment.getUserId(), 4);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

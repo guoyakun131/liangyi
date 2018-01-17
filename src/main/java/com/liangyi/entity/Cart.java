@@ -1,5 +1,8 @@
 package com.liangyi.entity;
 
+
+import org.springframework.context.annotation.Bean;
+
 /**
  * 购物车
  */

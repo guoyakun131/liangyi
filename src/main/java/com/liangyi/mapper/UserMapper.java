@@ -52,4 +52,12 @@ public interface UserMapper {
      */
     @Select("SELECT id FROM user WHERE sessionkey = #{session_id}")
     User userId(String session_id);
+
+    /**
+     * 查询openId
+     * @param session_id
+     * @return
+     */
+    @Select("select open_id from user where sessionkey = #{session_id}")
+    String openId(String session_id);
 }

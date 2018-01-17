@@ -1,10 +1,6 @@
 package com.liangyi.config;
 
-/**
- * 微信小程序相关配置信息
- */
-public class Config{
-
+public class Config {
     /**
      * 小程序AppID
      */
@@ -12,7 +8,7 @@ public class Config{
     /**
      * 商户支付秘钥
      */
-    public static final String Key = "handanliangyikejiyouxiangngsi66";
+    public static final String Key = "handanliangyikejiyouxiangongsi88";
     /**
      * 商户号
      */
@@ -21,4 +17,9 @@ public class Config{
      * 小程序秘钥
      */
     public static final String AppSecret = "104ba6a127c065f5529cc10cd6dba8b9";
+
+    /**
+     * 商家名称
+     */
+    public static final String MerchantsName = "良一科技";
 }

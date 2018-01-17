@@ -12,7 +12,7 @@ public interface AddressMapper {
      * @param sessionkey
      * @return
      */
-    @Select("SELECT id,NAME,mobile,province,city,dis,detail FROM address WHERE sel = 1 and user_id IN (SELECT id FROM USER WHERE sessionkey = #{sessionkey} )")
+    @Select("SELECT id,NAME,mobile,province,city,dis,detail FROM address WHERE sel = 1 and user_id IN (SELECT id FROM user WHERE sessionkey = #{sessionkey} )")
     Address findAddress(String sessionkey);
 
     /**

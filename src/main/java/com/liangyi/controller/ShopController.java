@@ -2,6 +2,7 @@ package com.liangyi.controller;
 
 import com.liangyi.entity.Address;
 import com.liangyi.entity.Goods;
+import com.liangyi.entity.Order;
 import com.liangyi.entity.UserComment;
 import com.liangyi.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/Shop")
+@RequestMapping("/api/Shop")
 public class ShopController {
 
     @Autowired
@@ -150,6 +151,7 @@ public class ShopController {
 
     /**
      * 新增收货详情
+     *
      * @param address
      * @param session_id
      * @return
@@ -157,7 +159,7 @@ public class ShopController {
     @PostMapping("add_addr")
     public Map<String, Object> addAddr(Address address, String session_id) {
         Map<String, Object> map = new HashMap<>();
-        map.put("isError", shopService.addAddress(session_id,address));
+        map.put("isError", shopService.addAddress(session_id, address));
         return map;
     }
 
@@ -175,4 +177,20 @@ public class ShopController {
         return map;
     }
 
+    /**
+     * 生成订单
+     *
+     * @param order
+     * @param session_id
+     * @param cart_sel
+     * @return
+     */
+    @PostMapping("add_order")
+    public Map<String, Object> addOrder(Order order, String session_id, String cart_sel) {
+        System.out.println(cart_sel);
+        System.out.println(order);
+        Map<String, Object> map = new HashMap<>();
+        map.put("isError", shopService.addOrder(order, session_id, cart_sel));
+        return map;
+    }
 }

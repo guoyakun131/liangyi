@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.liangyi.Utils.HttpUtil;
 import com.liangyi.config.Config;
+import com.liangyi.config.WxConfig;
+import com.liangyi.entity.Comment;
 import com.liangyi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +23,7 @@ import java.util.Map;
  * 用户Controller
  */
 @RestController
-@RequestMapping("/User")
+@RequestMapping("/api/User")
 public class UserController {
 
     @Autowired
@@ -33,7 +35,7 @@ public class UserController {
      * @param request
      * @param response
      */
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    @PostMapping("login")
     public Object login(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //用户登录凭证（有效期五分钟）。开发者需要在开发者服务器后台调用 api，
         // 使用 code 换取 openid 和 session_key 等信息
@@ -142,6 +144,7 @@ public class UserController {
 
     /**
      * 选择收货地址
+     *
      * @param session_id
      * @param addr_id
      * @return
@@ -150,6 +153,44 @@ public class UserController {
     public Map<String, Object> saveAddrSel(String session_id, int addr_id) {
         Map<String, Object> map = new HashMap<>();
         map.put("isError", userService.saveAddrSel(addr_id, session_id));
+        return map;
+    }
+
+    /**
+     * 订单列表
+     *
+     * @param status
+     * @param session_id
+     * @return
+     */
+    @PostMapping("order_list")
+    public Map<String, Object> orderlist(int status, String session_id) {
+        return userService.orderList(status, session_id);
+    }
+
+    /**
+     * 订单操作
+     *
+     * @param session_id
+     * @param type
+     * @param order_id
+     * @return
+     */
+    @PostMapping("change_order_status")
+    public Map<String, Object> changeOrderStatus(String session_id, int type, int order_id) {
+        return userService.changeOrderStatus(session_id, type, order_id);
+    }
+
+    /**
+     * 添加评论
+     * @param comment
+     * @return
+     */
+    @PostMapping("goods_comment")
+    public Map<String, Object> goodsComment(Comment comment,String session_id) {
+        System.out.println(comment);
+        Map<String, Object> map = new HashMap<>();
+        map.put("isError", userService.addGoodsComment(comment,session_id));
         return map;
     }
 }

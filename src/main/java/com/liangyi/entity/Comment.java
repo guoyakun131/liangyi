@@ -106,4 +106,17 @@ public class Comment {
     this.star = star;
   }
 
+  @Override
+  public String toString() {
+    return "Comment{" +
+            "id=" + id +
+            ", goodsId=" + goodsId +
+            ", orderId=" + orderId +
+            ", content='" + content + '\'' +
+            ", userId=" + userId +
+            ", spec='" + spec + '\'' +
+            ", addTime=" + addTime +
+            ", star=" + star +
+            '}';
+  }
 }

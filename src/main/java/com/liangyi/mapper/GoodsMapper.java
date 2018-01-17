@@ -60,6 +60,15 @@ public interface GoodsMapper {
      * @param sessionId
      * @return
      */
-    @Select("select g.img,g.name,c.spec,g.price,c.nums,g.express from cart c,goods g,user u WHERE c.user_id = u.id and c.goods_id = g.id and c.id in(${cartSel}) and u.id IN (SELECT id FROM USER WHERE sessionkey = #{sessionId})")
+    @Select("select g.img,g.name,c.spec,g.price,c.nums,g.express from cart c,goods g,user u WHERE c.user_id = u.id and c.goods_id = g.id and c.id in(${cartSel}) and u.id IN (SELECT id FROM user WHERE sessionkey = #{sessionId})")
     List<Goods> cartListSel(@Param("cartSel")String cartSel, @Param("sessionId")String sessionId);
+
+    /**
+     * 提交订单中的商品
+     * @param cart_sel
+     * @param userId
+     * @return
+     */
+    @Select("SELECT g.id, g.`name`,g.img, g.price, c.nums, c.spec from cart c, goods g WHERE c.user_id = #{userId} and c.goods_id = g.id and c.id in (${cart_sel})")
+    List<Goods> orderGoods(@Param("cart_sel") String cart_sel,@Param("userId") int userId);
 }

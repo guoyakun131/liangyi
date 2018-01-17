@@ -1,6 +1,8 @@
 package com.liangyi.controller;
 
+import com.liangyi.entity.Cart;
 import com.liangyi.entity.CartGoods;
+import com.liangyi.entity.Order;
 import com.liangyi.service.CartService;
 import com.liangyi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ import java.util.Map;
  * 购物车控制器
  */
 @RestController
-@RequestMapping("/Cart")
+@RequestMapping("/api/Cart")
 public class CartController {
 
     @Autowired
@@ -43,32 +45,35 @@ public class CartController {
     }
 
     /**
+     * 我的购物车数量
+     * @param session_id
+     * @return
+     */
+    @PostMapping("cart_count")
+    public Map<String,Object> cartCount(String session_id) {
+        return cartService.cartCount(session_id);
+    }
+
+    /**
      * 加入购物车
      *
-     * @param request
      * @return
      */
     @PostMapping("add_cart")
-    public Map<String, Object> addCart(HttpServletRequest request) {
-        //得到session_id
-        String session_id = request.getParameter("session_id");
-        //数量
-        int nums = Integer.valueOf(request.getParameter("nums"));
-        //商品id
-        int goods_id = Integer.valueOf(request.getParameter("goods_id"));
-        //商品规格
-        String spec = request.getParameter("spec");
-        //得到userId
+    public Map<String, Object> addCart(Cart cart,String session_id) {
         int userId = userService.userId(session_id);
         //得到时间戳
         SimpleDateFormat df = new SimpleDateFormat("MMddHHmmss");//设置日期格式
         String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
         int add_time = Integer.valueOf(date);
+        cart.setAddTime(add_time);
         System.out.println(add_time);
         //加入购物车返回成功或者失败
-        boolean isError = cartService.addCart(userId, goods_id, spec, nums, add_time);
+        boolean isError = cartService.addCart(userId,cart);
+        System.out.println("id"+cart.getId());
         Map<String, Object> map = new HashMap<>();
         map.put("isError", isError);
+        map.put("id", cart.getId());
         return map;
     }
 
@@ -109,4 +114,5 @@ public class CartController {
         }
         return map;
     }
+
 }

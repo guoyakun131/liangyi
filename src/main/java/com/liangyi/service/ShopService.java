@@ -1,14 +1,15 @@
 package com.liangyi.service;
 
-import com.liangyi.entity.Address;
-import com.liangyi.entity.Goods;
-import com.liangyi.entity.UserComment;
+import com.liangyi.Utils.TestRandom;
+import com.liangyi.entity.*;
 import com.liangyi.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,15 @@ public class ShopService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private OrderMapper orderMapper;
+
+    @Autowired
+    private OrderGoodsMapper orderGoodsMapper;
+
+    @Autowired
+    private CartMapper cartMapper;
 
     /**
      * 查询首页Tab显示的数字
@@ -211,5 +221,56 @@ public class ShopService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * 生成订单
+     * @param order
+     * @param session_id
+     * @param cart_sel
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public boolean addOrder(Order order, String session_id, String cart_sel) {
+        try {
+            //UserID
+            int userId = userMapper.userId(session_id).getId();
+            //查询出提交订单的商品详情
+            List<Goods> orderGoodsList = goodsMapper.orderGoods(cart_sel, userId);
+            double orderPrice = 0.0;
+            for (Goods orderGoods : orderGoodsList) {
+                orderPrice += orderGoods.getPrice()*orderGoods.getNums();
+            }
+            //系统时间
+            Date date = new Date();
+            //格式化
+            SimpleDateFormat sdf = new SimpleDateFormat("MMddHHmmss");
+            //转int
+            long add_time = Long.valueOf(sdf.format(date).toString());
+            order.setUserId(userId);
+            order.setSum(orderPrice);
+            order.setAddTime(add_time);
+            //生成订单号
+            SimpleDateFormat s = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+            order.setOrderNum(s.format(date).toString());
+            //生成运单号
+           // order.setExpressNum("400" + add_time);
+            //添加订单
+            orderMapper.addOrder(order);
+
+            System.out.println("order" + order.getId());
+            //添加订单商品
+            for (Goods goods : orderGoodsList) {
+                goods.setAddTime(add_time);
+                orderGoodsMapper.addOrderGoods(goods, order.getId());
+            }
+            //清空生成订单的购物车
+            cartMapper.delOrderCart(cart_sel);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 }

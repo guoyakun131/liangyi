@@ -1,5 +1,6 @@
 package com.liangyi.mapper;
 
+import com.liangyi.entity.Cart;
 import com.liangyi.entity.CartGoods;
 import org.apache.ibatis.annotations.*;
 
@@ -10,6 +11,7 @@ public interface CartMapper {
 
     /**
      * 按用户id查询购物车列表
+     *
      * @param id
      * @return
      */
@@ -17,32 +19,45 @@ public interface CartMapper {
     List<CartGoods> caetList(int id);
 
     /**
+     * 购物车数量
+     * @param session_id
+     * @return
+     */
+    @Select("SELECT COUNT(*) from cart WHERE user_id in(SELECT id from user where sessionkey = #{session_id})")
+    int cartCount(String session_id);
+
+    /**
      * 加入购物车
      *
      * @param userId
-     * @param goods_id
-     * @param spec
-     * @param nums
-     * @param add_time
+     * @param cart
      */
-    @Insert("INSERT INTO cart (user_id,goods_id,spec,nums,add_time) VALUES (#{userId},#{goods_id},#{spec},#{nums},#{add_time})")
-    void addCart(@Param("userId") int userId, @Param("goods_id") int goods_id, @Param("spec") String spec, @Param("nums") int nums, @Param("add_time") int add_time);
+    @Insert("INSERT INTO cart (user_id,goods_id,spec,nums,add_time) VALUES (#{userId},#{cart.goodsId},#{cart.spec},#{cart.nums},#{cart.addTime})")
+    @Options(useGeneratedKeys = true, keyProperty = "cart.id")
+    void addCart(@Param("userId") int userId, @Param("cart") Cart cart);
 
     /**
      * 删除购物车中商品
+     *
      * @param id
      */
     @Delete("DELETE FROM cart WHERE id = #{id}")
     void delCart(int id);
 
     /**
+     * 请空生成订单的购物车商品
+     */
+    @Delete("DELETE FROM cart WHERE id in (${cart_sel})")
+    void delOrderCart(@Param("cart_sel") String cart_sel);
+
+    /**
      * 购物车商品数量加减
+     *
      * @param nums
      * @param cart_id
      */
     @Delete("UPDATE cart set nums = #{nums} where id = #{id}")
     int addNumAndDelNum(@Param("nums") int nums, @Param("id") int cart_id);
-
 
 }
 

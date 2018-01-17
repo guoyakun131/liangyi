@@ -1,8 +1,13 @@
 package com.liangyi.entity;
 
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 /**
  * 订单表
  */
+@Service
 public class Order {
 
   private long id;
@@ -47,6 +52,7 @@ public class Order {
    */
   private String expressNum;
 
+  private List<OrderGoods> OrderGoodsList;
 
   public long getId() {
     return id;
@@ -146,4 +152,29 @@ public class Order {
     this.expressNum = expressNum;
   }
 
+  public List<OrderGoods> getOrderGoodsList() {
+    return OrderGoodsList;
+  }
+
+  public void setOrderGoodsList(List<OrderGoods> orderGoodsList) {
+    OrderGoodsList = orderGoodsList;
+  }
+
+  @Override
+  public String toString() {
+    return "Order{" +
+            "id=" + id +
+            ", sum=" + sum +
+            ", des='" + des + '\'' +
+            ", isSms=" + isSms +
+            ", express=" + express +
+            ", userId=" + userId +
+            ", addressId=" + addressId +
+            ", addTime=" + addTime +
+            ", orderNum='" + orderNum + '\'' +
+            ", status=" + status +
+            ", expressNum='" + expressNum + '\'' +
+            ", OrderGoodsList=" + OrderGoodsList +
+            '}';
+  }
 }

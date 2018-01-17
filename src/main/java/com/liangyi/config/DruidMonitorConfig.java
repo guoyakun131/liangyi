@@ -20,7 +20,6 @@ public class DruidMonitorConfig {
 
     /**
      * 注册ServletRegistrationBean
-     *
      * @return
      */
     @Bean
