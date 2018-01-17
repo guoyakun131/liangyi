@@ -1,0 +1,148 @@
+.banner {
+     background: url('../img/first-bg.png') center center no-repeat;
+     min-height:200px;
+     width:100%;
+     text-align: center;
+     padding-top:3.5em;
+     color:#fff;
+     background-size: cover;
+}
+.head1 {
+    font-size:0.5em;
+}
+.head2 {
+    padding-top:0.1em;
+}
+.head3 {
+    font-size:0.9em;
+    position: relative;
+    bottom:-4.2em;
+}
+.head1 h2 b {
+    font-size:2em;
+}
+.head2 h3 {
+    font-size:1.6em
+}
+.inv {
+    color:#e19e1b;
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-left: 0.5em;
+    padding: 0.2em 0.5em 0.2em 0.5em;
+    border: 4px solid #e8e8e8;
+    width: 5em;
+}
+.invit_content {
+    padding:1em;
+}
+.e_word {
+    font-size: 0.4em;
+    color:black;
+}
+.inv_img {
+    width: 200px;
+    position: relative;
+}
+.content {
+    background:#fff;padding:10px 2px 10px 2px
+}
+.activity {
+    background:black;
+    padding:20px 2px 10px 2px;
+    background: url('../img/ac-bg.jpg') center center no-repeat;
+    background-size: cover;
+}
+.aui-list-item div div {
+    color:#e19e1b;
+}
+.aui-list-item-title {
+    font-size: 0.8em !important;
+    color:#e19e1b !important;
+}
+.form-input input {
+    color:#fff;
+}
+.form-input textarea {
+    color:#fff;
+}
+
+#demo15{
+  position: relative;
+}
+#demo15::before {
+  border: 6px solid transparent;
+  border-left: 8px solid #e19e1b;
+  width: 0;
+  height: 0;
+  position: absolute;
+  content: ' ';
+  top:2px;
+}
+.guest {
+    display:inline-block;
+    min-height: 200px;
+    background:#e19e1b
+}
+
+.gf-select {
+    width: 120px;
+    display: inline-block;
+    margin: 0 10px;
+    position: relative;
+    color: #bdbdbd;
+    text-align: center;
+    font-size: 0.8em;
+    margin-right: -5em;
+    right: 2.5em;
+}
+
+.datepicker, .datepicker .dropdown-menu, .gf-select ul {
+    display: none;
+    position: absolute
+}
+
+.gf-select span {
+    width: 120px;
+    cursor: pointer
+}
+
+.gf-select span em {
+    font-style: normal
+}
+
+.gf-select .icon-jt {
+    width: 12px;
+    height: 6px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    margin-top: -3px
+}
+
+.gf-select ul {
+    border: 1px solid #ddd;
+    width: 100%;
+    top: 24px;
+    overflow-y: auto;
+    background: #fff;
+    -moz-border-radius: 5px;
+    border-radius: 5px
+}
+
+.gf-select ul li {
+    border-bottom: 1px solid #ddd;
+    line-height: 30px
+}
+
+.gf-select ul li:last-child {
+    border-bottom: none
+}
+
+.inpu-border {
+    display:inline-block !important;
+    width:50px !important;
+    border:1px solid #e19e1b !important;
+    height: 1em !important;
+    text-align: center;
+}

@@ -1,0 +1,77 @@
+<title>用户列表</title>
+<style>
+    .page {text-align: center;margin-top: 15px;}
+	.page a {padding-right:10px;padding-left: 10px;border: 1px solid #ccc;text-align: center; font-size: 22px; margin: 0 2px 0 2px}
+	.page strong {padding-right:10px;padding-left: 10px; border: 1px solid #ccc; background: #5a98de; color: #fff; font-size: 22px; margin: 0 2px 0 2px}
+</style>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 用户列表<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+	<div class="text-c">
+		<form action="<?php echo site_url('User/index') ?>" method="get">
+			<input type="text" name="keyword" placeholder="昵称" style="width:250px" class="input-text" value="<?php echo $this->input->get('keyword'); ?>">
+			<button class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i>搜索</button>
+		</form>
+	</div>
+	<div class="mt-20">
+		<table class="table table-border table-bordered table-bg table-hover table-sort">
+			<thead>
+				<tr class="text-c">
+					<th width='40'>id</th>
+					<th width='100'>昵称</th>
+					<th width="80">头像</th>
+					<th width='80'>创建时间</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($list AS $val) { ?>
+				<tr class="text-c">
+					<td><?php echo $val['id']; ?></td>
+					<td><?php echo $val['nick_name']; ?></td>
+					<td><img style="width:50px;" src="<?php echo $val['avatar']; ?>"></td>
+					<td><?php echo date('Y-m-d H:i:s', $val['add_time']); ?></td>
+				</tr>
+				<?php } ?>
+			</tbody>
+		</table>
+		<div class="page">
+			<?php echo $pages; ?>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+/**
+ * 添加
+ */
+function article_add(title,url,w,h){
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: url
+	});
+	layer.full(index);
+}
+
+/**
+ * 编辑
+ */
+function edit(title,url,id,w,h){
+	var index = layer.open({
+		type: 2,
+		title: title,
+		content: url
+	});
+	layer.full(index);
+}
+
+/**
+ * 冻结账户
+ */
+function freeze(url,id){
+	layer.confirm('确认要冻结吗？',function(index){
+		window.location.href= url;
+	});
+}
+</script>
