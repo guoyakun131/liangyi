@@ -62,9 +62,10 @@ public class CartController {
     @PostMapping("add_cart")
     public Map<String, Object> addCart(Cart cart,String session_id) {
         int userId = userService.userId(session_id);
-        //得到时间戳
-        SimpleDateFormat df = new SimpleDateFormat("MMddHHmmss");//设置日期格式
-        String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
+        //得到时间戳,设置日期格式
+        SimpleDateFormat df = new SimpleDateFormat("MMddHHmmss");
+        // new Date()为获取当前系统时间，也可使用当前时间戳
+        String date = df.format(new Date());
         int add_time = Integer.valueOf(date);
         cart.setAddTime(add_time);
         System.out.println(add_time);

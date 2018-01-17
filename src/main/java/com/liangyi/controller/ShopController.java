@@ -20,6 +20,15 @@ public class ShopController {
     @Autowired
     private ShopService shopService;
 
+    /**
+     * 首页通告
+     *
+     * @return
+     */
+    @PostMapping("g")
+    public List<String> g() {
+        return shopService.g();
+    }
 
     /**
      * 查询首页Tab显示的数字
@@ -193,4 +202,6 @@ public class ShopController {
         map.put("isError", shopService.addOrder(order, session_id, cart_sel));
         return map;
     }
+
+
 }

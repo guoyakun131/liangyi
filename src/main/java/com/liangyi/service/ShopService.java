@@ -41,6 +41,19 @@ public class ShopService {
     @Autowired
     private CartMapper cartMapper;
 
+    @Autowired
+    private GMapper gMapper;
+
+
+    /**
+     * 查询通告
+     * @return
+     */
+    public List<String> g(){
+        List<String> gtext = gMapper.g();
+      return  gtext;
+    }
+
     /**
      * 查询首页Tab显示的数字
      *
