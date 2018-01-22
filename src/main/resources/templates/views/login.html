@@ -27,10 +27,17 @@
 <!-- <div class="header">后台管理</div> -->
 <div class="loginWraper">
     <div id="loginform" class="loginBox">
-        <form class="form form-horizontal" action="/admin/Login/check" method="post">
+
+        <form class="form form-horizontal" action="/admin/Login" method="post">
             <div class="row cl">
                 <div class="formControls col-xs-8 col-xs-offset-3">
                     <b style='color:gray'>不存在十全十美的文章，如同不存在彻头彻尾的绝望</b>
+                </div>
+                <div class="formControls col-xs-8 col-xs-offset-3" th:if="${param.error}">
+                    <b style='color:gray'>请输入正确的账号密码！</b>
+                </div>
+                <div class="formControls col-xs-8 col-xs-offset-3" th:if="${param.logout}">
+                    <b style='color:gray'>You have been logged out.</b>
                 </div>
             </div>
             <div class="row cl">
@@ -56,6 +63,7 @@
                            value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;"/>
                     <input name="" type="reset" class="btn btn-default radius size-L"
                            value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;"/>
+
                 </div>
             </div>
         </form>

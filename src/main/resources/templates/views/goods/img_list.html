@@ -1,64 +1,125 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/hui/lib/html5.js"></script>
+    <script type="text/javascript" src="/hui/lib/respond.min.js"></script>
+    <script type="text/javascript" src="/hui/lib/PIE_IE678.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="/hui/static/h-ui/css/H-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/hui/static/h-ui.admin/css/H-ui.admin.css"/>
+    <link rel="stylesheet" type="text/css" href="/hui/lib/Hui-iconfont/1.0.7/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="/hui/lib/icheck/icheck.css"/>
+    <link rel="stylesheet" type="text/css" href="/hui/static/h-ui.admin/skin/orange/skin.css" id="skin"/>
+    <link rel="stylesheet" type="text/css" href="/hui/static/h-ui.admin/css/style.css"/>
+    <!--[if IE 6]>
+    <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js"></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+    <!--/meta 作为公共模版分离出去-->
+
+    <script type="text/javascript" src="/hui/lib/jquery/1.9.1/jquery.min.js"></script>
+
 </head>
 <body>
 <div class="page-container">
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
-            <a class="btn btn-primary radius" data-title="添加图片" onclick="add('添加图片','<?php echo site_url("Goods/edit_img?id=".$goods_id); ?>', '400', '250')" href="javascript:;">
+            <a class="btn btn-primary radius" data-title="添加图片" onclick="add('添加图片','Goods/edit_img?id=', '400', '250')" href="javascript:;">
             <i class="Hui-iconfont">&#xe600;</i> 添加图片</a></span>
         </span>
     </div>
-	<div class="mt-20">
-		<table class="table table-border table-bordered table-bg table-hover table-sort">
-			<thead>
-				<tr class="text-c">
-					<th width='100'>图片</th>
-					<th width='80'>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php foreach($list AS $val) { ?>
-				<tr class="text-c">
-					<td><img src="<?php echo base_url($val['img']); ?>" style="width:100px;" /></td>
-					<td class="f-14 td-manage">
-						<a style="text-decoration:none" class="ml-5" onClick="del('<?php echo site_url("Goods/del_img/$val[id]"); ?>')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>
-					</td>
-				</tr>
-				<?php } ?>
-			</tbody>
-		</table>
-		<div class="page">
-			<?php echo $pages; ?>
-		</div>
-	</div>
+    <div class="mt-20">
+        <table class="table table-border table-bordered table-bg table-hover table-sort">
+            <thead>
+            <tr class="text-c">
+                <th width='100'>图片</th>
+                <th width='80'>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr class="text-c" th:each="imgs:${imgList}">
+                <td><img th:src="@{${imgs.img}}" style="width:100px;"/></td>
+                <td class="f-14 td-manage">
+                    <a style="text-decoration:none" class="ml-5" th:onclick="'del(this,'+${imgs.id}+')'";
+                       href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+        <div class="page">
+
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
-/**
- * 添加
- */
-function add(title,url,w,h){
-    layer_show(title, url, w, h);
-}
+    /**
+     * 添加
+     */
+    function add(title, url, w, h) {
+        layer_show(title, url, w, h);
+    }
 
-/**
- * 编辑
- */
-function edit(title,url,id,w,h){
-    layer_show(title, url, w, h);
-}
+    /**
+     * 编辑
+     */
+    function edit(title, url, id, w, h) {
+        layer_show(title, url, w, h);
+    }
 
-/**
- * 冻结账户
- */
-function freeze(url,id){
-	layer.confirm('确认要冻结吗？',function(index){
-		window.location.href= url;
-	});
-}
+    /**
+     * 冻结账户
+     */
+    function freeze(url, id) {
+        layer.confirm('确认要冻结吗？', function (index) {
+            window.location.href = url;
+        });
+    }
 
-function del(url, id) {
-	layer.confirm('确认要删除吗？',function(index){
-		window.location.href= url;
-	});
-}
+    function del(obj,id) {
+        //var url = '/admin/Goods/del_img?id='+id;
+        layer.confirm('确认要删除吗？', function (index) {
+            $.ajax({
+                type: 'POST',
+                url: '/admin/Goods/del_img',
+                data: {
+                    "id": id,
+                },
+                dataType: 'text',
+                success: function(data) {
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!', {
+                        icon: 1,
+                        time: 1000
+                    });
+                },
+                error: function(data) {
+                    layer.msg('删除失败!', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    console.log(data);
+                },
+            });
+        });
+    }
 </script>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="/hui/lib/layer/2.1/layer.js"></script>
+<script type="text/javascript" src="/hui/lib/icheck/jquery.icheck.min.js"></script>
+<script type="text/javascript" src="/hui/lib/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/hui/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="/hui/lib/jquery.validation/1.14.0/messages_zh.min.js"></script>
+<script type="text/javascript" src="/hui/static/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="/hui/static/h-ui.admin/js/H-ui.admin.js"></script>
+<!--/_footer /作为公共模版分离出去-->

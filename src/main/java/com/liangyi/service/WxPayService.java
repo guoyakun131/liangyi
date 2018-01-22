@@ -65,7 +65,7 @@ public class WxPayService {
         data.put("fee_type", "CNY");
         data.put("total_fee", sum);
         data.put("spbill_create_ip", IpUtil.getIpAddr(request));
-        data.put("notify_url", "https://qubing.net.cn/api/wxPay/notify");
+        data.put("notify_url", "https://qubing.net.cn/ly/api/wxPay/notify");
         data.put("trade_type", "JSAPI");
         //data.put("nonce_str", RandomStringUtils.randomAlphanumeric(32));//随机数
         System.out.println("data:" + data);
@@ -77,7 +77,7 @@ public class WxPayService {
             e.printStackTrace();
         }
         // 返回状态码
-        String return_code = (String) resp.get("return_code");// 返回状态码
+        String return_code = (String) resp.get("return_code");
         // 返回给小程序端需要的参数
         Map<String, String> response = new HashMap<String, String>();
         if (return_code == "SUCCESS" || return_code.equals(return_code)) {
@@ -131,7 +131,8 @@ public class WxPayService {
             // 进行处理。
             // 注意特殊情况：订单已经退款，但收到了支付结果成功的通知，不应把商户侧订单状态从退款改成支付成功
             // 通知微信服务器已经支付成功
-            orderMapper.changeOrderStatus((int)order.getId(),user.getId(),1);
+            System.out.println("orderID:"+order.getId()+"--userId:"+user.getId());
+            orderMapper.changeOrderStatus(order.getId(),user.getId(),1);
             resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
                     + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
 

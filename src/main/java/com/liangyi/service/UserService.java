@@ -1,6 +1,9 @@
 package com.liangyi.service;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.liangyi.Utils.KdniaoTrackQueryAPI;
 import com.liangyi.entity.*;
 import com.liangyi.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -31,6 +31,9 @@ public class UserService {
 
     @Autowired
     private OrderGoodsMapper orderGoodsMapper;
+
+    @Autowired
+    private KdniaoTrackQueryAPI kdniaoTrackQueryAPI;
 
     public List<User> user() {
         return userMapper.user();
@@ -124,9 +127,10 @@ public class UserService {
      * @return
      */
     public Map<String, Object> orderList(int status, String session_id) {
+        System.out.println(status);
         Map<String, Object> map = new HashMap<>();
         try {
-            if (status == 10) {
+            if (status == 0) {
                 //得到userID
                 User userId = userMapper.userId(session_id);
 
@@ -143,7 +147,7 @@ public class UserService {
                 User userId = userMapper.userId(session_id);
 
                 //按状态查询订单列表
-                List<Order> orderList = orderMapper.orderList(status, session_id);
+                List<Order> orderList = orderMapper.orderList(status - 1, session_id);
                 for (Order order : orderList) {
                     //按订单号查询订单中的商品
                     List<OrderGoods> orderGoodsList = orderMapper.orderGoodsList(userId.getId(), order.getOrderNum());
@@ -195,6 +199,26 @@ public class UserService {
     }
 
     /**
+     * 各状态的订单数量
+     *
+     * @param session_id
+     * @return
+     */
+    public List orderNums(String session_id) {
+        User userId = userMapper.userId(session_id);
+        List orderNumsList = new ArrayList();
+        try {
+            for (int i = 0; i <= 3; i++) {
+                int orderNums = orderMapper.orderNums(i, userId.getId());
+                orderNumsList.add(orderNums);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return orderNumsList;
+    }
+
+    /**
      * 添加评论
      *
      * @param comment
@@ -214,4 +238,36 @@ public class UserService {
             return false;
         }
     }
+
+    /**
+     * 物流查询
+     *
+     * @param session_id
+     * @param order_id
+     * @return
+     */
+    public String expressInfo(String session_id, int order_id) {
+        System.out.println("order_id:" + order_id);
+        User user = userMapper.userId(session_id);
+        System.out.println(user.getId());
+        Map<String, String> exp = userMapper.expressNum(order_id, user.getId());
+        System.out.println("expCode:" + exp.get("expCode"));
+        try {
+            String result = kdniaoTrackQueryAPI.getOrderTracesByJson(exp.get("expCode"), exp.get("express_num"));
+//            //解析返回的json
+//            ObjectMapper mapper = new ObjectMapper();
+//            JsonNode root = mapper.readTree(result);
+//            String LogisticCode = root.path("LogisticCode").textValue();
+//            String Reason = root.path("Reason").textValue();
+//            String Traces = root.path("Traces").textValue();
+//            map.put("LogisticCode", LogisticCode);
+//            map.put("Traces", Traces);
+//            System.out.println("LogisticCode:"+LogisticCode+"Traces:"+Traces);
+            return result;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "查询失败";
+        }
+    }
+
 }

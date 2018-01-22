@@ -22,4 +22,6 @@ public class Config {
      * 商家名称
      */
     public static final String MerchantsName = "良一科技";
+
+    public static final String url = "https://localhost/";
 }

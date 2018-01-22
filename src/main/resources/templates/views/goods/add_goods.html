@@ -25,53 +25,52 @@
     <!--/meta 作为公共模版分离出去-->
 
     <script type="text/javascript" src="/hui/lib/jquery/1.9.1/jquery.min.js"></script>
-<link href="/hui/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css"/>
+    <link href="/hui/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div class="page-container">
-    <form action="Goods/save_Goods" method="post" class="form form-horizontal" id="form-article-add"
+    <form action="/admin/Goods/save_Goods" method="post" class="form form-horizontal" id="form-article-add"
           enctype="multipart/form-data">
-        <input type='hidden' th:value="${goods.id}" name='id'/>
+        <!--<input type='hidden' value="" name='id'/>-->
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">名称：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" name="name"
-                       th:value="${goods.name}" required>
+                       value="" required>
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">价格：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" name="price"
-                       th:value="${goods.price}" required>
+                       value="" required>
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">运费：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" name="express"
-                       th:value="${goods.express}" required>
+                       value="" required>
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">数量：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" name="nums"
-                       th:value="${goods.nums}" required>
+                       value="" required>
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">商品封面图：</label>
             <div class="formControls col-xs-8 col-sm-9">
-				<!--<span class="btn-upload form-group">
-				<input class="input-text upload-url" type="text" name="video_img_url" id="uploadfile-2" readonly
+                <span class="btn-upload form-group">
+                <input class="input-text upload-url" type="text" name="video_img_url" id="uploadfile-2" readonly
                        datatype="*" nullmsg="请添加logo！" style="width:200px"
-                       th:value="${goods.img}">
-				<a href="javascript:void();" class="btn btn-primary upload-btn"><i class="Hui-iconfont">&#xe642;</i> 浏览文件</a>
-				<input type="file" name="video_img" class="input-file" multiple>
-				</span>-->
+                       value="">
+                <a href="javascript:void();" class="btn btn-primary upload-btn"><i class="Hui-iconfont">&#xe642;</i> 浏览文件</a>
+                <input type="file" name="video_img" class="input-file" multiple>
+                </span>
 
-                <img th:src="@{${goods.img}}">
             </div>
         </div>
         <div class="row cl">
@@ -79,9 +78,9 @@
             <div class="formControls col-xs-8 col-sm-9">
 				<span class="select-box">
 				  <select class="select" size="1" name="type">
-				    <option value="0" th:selected="${goods.type == '0'}">普通</option>
-				    <option value="1" th:selected="${goods.type == '1'}">上新</option>
-				    <option value="2" th:selected="${goods.type == '2'}">热销</option>
+				    <option value="0" >普通</option>
+				    <option value="1" selected>上新</option>
+				    <option value="2" >热销</option>
 				  </select>
 				</span>
             </div>
@@ -90,13 +89,13 @@
             <label class="form-label col-xs-4 col-sm-2">商品规格（以半角逗号隔开）：</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <input type="text" class="input-text" name="spec"
-                       th:value="${goods.spec}"  required>
+                       value=""  required>
             </div>
         </div>
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">商品描述</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <script id="editor" name='content' type="text/plain" style="width:100%;height:400px;" th:utext="${goods.content}"></script>
+                <script id="editor" name='content' type="text/plain" style="width:100%;height:400px;" ></script>
                 </div>
                 </div>
                 <div class="row cl" ><div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">

@@ -49,13 +49,22 @@ public interface OrderMapper {
      * @param type
      */
     @Update("UPDATE `order` set `status` = #{type} WHERE user_id = #{userId} and id = #{order_id}")
-    void changeOrderStatus(@Param("order_id") int order_id,@Param("userId") int userId,@Param("type") int type);
+    void changeOrderStatus(@Param("order_id") long order_id,@Param("userId") int userId,@Param("type") int type);
 
     /**
      * 查询需要支付的订单
      * @param order_id
      * @return
      */
-    @Select("select order_num as orderNum, sum from `order` where id = #{order_id}")
+    @Select("select id, order_num as orderNum, sum from `order` where id = #{order_id}")
     Order orderInfo(int order_id);
+
+    /**
+     * 查询订单状态为待付款，待收货等数量
+     * @param status
+     * @param userid
+     * @return
+     */
+    @Select("SELECT COUNT(*) from `order` where `status` = #{status} and user_id = #{userid}")
+    int orderNums(@Param("status") int status,@Param("userid") int userid);
 }

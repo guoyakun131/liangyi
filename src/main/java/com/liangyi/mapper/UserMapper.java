@@ -1,9 +1,11 @@
 package com.liangyi.mapper;
 
+import com.liangyi.entity.Order;
 import com.liangyi.entity.User;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface UserMapper {
@@ -60,4 +62,20 @@ public interface UserMapper {
      */
     @Select("select open_id from user where sessionkey = #{session_id}")
     String openId(String session_id);
+
+    /**
+     * 查询物流号
+     * @param order_id
+     * @param userId
+     * @return
+     */
+    @Select("SELECT express_num,expCode from `order` where id = #{order_id} and user_id = #{userId}")
+    Map<String,String> expressNum(@Param("order_id") int order_id, @Param("userId") int userId);
+
+    /**
+     * 用户列表
+     * @return
+     */
+    @Select("SELECT id,avatar,nick_name as nickName,add_time as addTime from user ORDER BY id desc")
+    List<User> userList();
 }
