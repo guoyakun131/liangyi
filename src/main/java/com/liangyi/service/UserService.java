@@ -177,10 +177,13 @@ public class UserService {
         Map<String, Object> map = new HashMap<>();
         try {
             User user = userMapper.userId(session_id);
-            if (type == 0 || type == 1) {
+            if (type == 0 ) {
                 orderMapper.changeOrderStatus(order_id, user.getId(), 5);
                 map.put("status", 5);
-            } else if (type == 2) {
+            }else if(type == 1){
+                orderMapper.changeOrderStatus(order_id, user.getId(), 7);
+                map.put("status", 7);
+            }else if (type == 2) {
                 orderMapper.changeOrderStatus(order_id, user.getId(), 3);
                 map.put("status", 3);
             } else if (type == 3) {

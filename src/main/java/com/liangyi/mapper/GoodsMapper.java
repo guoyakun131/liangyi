@@ -93,6 +93,20 @@ public interface GoodsMapper {
     void addGoods(@Param("goods") Goods goods);
 
     /**
+     * 编辑商品
+     * @param goods
+     */
+    @Update("update goods set name = #{goods.name}, price = #{goods.price},img = #{goods.img},type = #{goods.type},express = #{goods.express},content = #{goods.content},tags = #{goods.tags},nums = #{goods.nums},spec = #{goods.spec} where id = #{goods.id}")
+    void editGoods(@Param("goods") Goods goods);
+
+    /**
+     * 编辑商品不换图片
+     * @param goods
+     */
+    @Update("update goods set name = #{goods.name}, price = #{goods.price},type = #{goods.type},express = #{goods.express},content = #{goods.content},tags = #{goods.tags},nums = #{goods.nums},spec = #{goods.spec} where id = #{goods.id}")
+    void editGoodsNoImg(@Param("goods") Goods goods);
+
+    /**
      * 删除商品
      * @param id
      */

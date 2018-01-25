@@ -24,4 +24,8 @@ public class Config {
     public static final String MerchantsName = "良一科技";
 
     public static final String url = "https://localhost/";
+
+        public static final String filePath  = "D:\\liangyi\\src\\main\\webapp\\upload\\";
+
+
 }

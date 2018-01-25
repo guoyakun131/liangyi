@@ -78,4 +78,12 @@ public interface UserMapper {
      */
     @Select("SELECT id,avatar,nick_name as nickName,add_time as addTime from user ORDER BY id desc")
     List<User> userList();
+
+    /**
+     * 后台按用户昵称模糊查询
+     * @param name
+     * @return
+     */
+    @Select("select id,avatar,nick_name as nickName,add_time as addTime from user where nick_name LIKE '%${nickName}%' ORDER BY id desc")
+    List<User> userLsitByName(@Param("nickName") String nickName);
 }

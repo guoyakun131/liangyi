@@ -94,7 +94,11 @@
                 <td th:text="${goods.id}"></td>
                 <td th:text="${goods.name}"></td>
                 <td th:text="${goods.price}"></td>
-                <td th:text="${goods.type}"></td>
+                <td class="td-status">
+                    <span class="label label-success radius" th:if="${goods.type == 0}">普通</span>
+                    <span class="label label-success radius" th:if="${goods.type == 1}">上新</span>
+                    <span class="label label-success radius" th:if="${goods.type == 2}">热销</span>
+                </td>
                 <td th:text="${goods.express}"></td>
                 <td th:text="${goods.nums}"></td>
                 <td>

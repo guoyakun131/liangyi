@@ -1,8 +1,11 @@
 package com.liangyi.entity;
 
+import org.springframework.stereotype.Service;
+
 /**
  * 收货地址表
  */
+@Service
 public class Address {
 
   private long id;

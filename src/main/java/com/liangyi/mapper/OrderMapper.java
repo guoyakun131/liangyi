@@ -1,8 +1,6 @@
 package com.liangyi.mapper;
 
-import com.liangyi.entity.Goods;
-import com.liangyi.entity.Order;
-import com.liangyi.entity.OrderGoods;
+import com.liangyi.entity.*;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -67,4 +65,47 @@ public interface OrderMapper {
      */
     @Select("SELECT COUNT(*) from `order` where `status` = #{status} and user_id = #{userid}")
     int orderNums(@Param("status") int status,@Param("userid") int userid);
+
+    /**
+     * 后台查询所有的订单
+     * @return
+     */
+    @Select("SELECT id,sum,des,is_sms as isSms,express,user_id as userId,address_id as addressId,add_time as addTime,order_num as orderNum,`status`,express_num as expressNum from `order` ORDER BY id desc")
+    List<Order> adminOrderListAll();
+
+    /**
+     * 后台按照订单号查询
+     * @return
+     */
+    @Select("SELECT id,sum,des,is_sms as isSms,express,user_id as userId,address_id as addressId,add_time as addTime,order_num as orderNum,`status`,express_num as expressNum from `order` where order_num = #{orderNum} ORDER BY id desc")
+    List<Order> adminOrderByNum(String orderNum);
+
+    /**
+     * 买家信息
+     * @param userId
+     * @return
+     */
+    @Select("select id,avatar,nick_name as nickName from user where id = #{userId}")
+    User user(int userId);
+
+    /**
+     * 订单收货地址
+     * @param userId
+     * @return
+     */
+    @Select("select name,mobile,province,city,dis,detail,code from address where sel = 1 and user_id = #{userId}")
+    Address a(int userId);
+
+    /**
+     * 发货
+     */
+    @Update("UPDATE `order` set `status` = 2, express_num = #{expressNum}, expCode = #{expCode} WHERE id = #{orderId}")
+    void fahuo(@Param("orderId") int orderId,@Param("expressNum")String expressNum,@Param("expCode")String expCode);
+
+    /**
+     * 管理员删除订单
+     * @param orderId
+     */
+    @Delete("delete FROM `order` where id = #{orderId}")
+    void delOrder(int orderId);
 }

@@ -1,3 +1,30 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="/hui/lib/html5.js"></script>
+    <script type="text/javascript" src="/hui/lib/respond.min.js"></script>
+    <script type="text/javascript" src="/hui/lib/PIE_IE678.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="/hui/static/h-ui/css/H-ui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/hui/static/h-ui.admin/css/H-ui.admin.css"/>
+    <link rel="stylesheet" type="text/css" href="/hui/lib/Hui-iconfont/1.0.7/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="/hui/lib/icheck/icheck.css"/>
+    <link rel="stylesheet" type="text/css" href="/hui/static/h-ui.admin/skin/orange/skin.css" id="skin"/>
+    <link rel="stylesheet" type="text/css" href="/hui/static/h-ui.admin/css/style.css"/>
+    <!--[if IE 6]>
+    <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js"></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+    <!--/meta 作为公共模版分离出去-->
+
 <title>订单列表</title>
 <style>
     .page {
@@ -31,9 +58,9 @@
         href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
     <div class="text-c">
-        <form action="/User/index" method="get">
-            <input type="text" name="keyword" placeholder="订单编号" style="width:250px" class="input-text"
-                   value="<?php echo $this->input->get('keyword'); ?>">
+        <form action="/admin/Order/index" method="get">
+            <input type="text" name="orderNum" placeholder="订单编号" style="width:250px" class="input-text"
+                   value="">
             <button class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i>搜索</button>
         </form>
     </div>
@@ -42,36 +69,147 @@
             <thead>
             <tr class="text-c">
                 <th width='40'>id</th>
+                <th width='100'>订单号</th>
                 <th width='100'>订单总金额</th>
                 <th width="80">留言</th>
-                <th width='80'>购买商品</th>
-                <th width='80'>创建时间</th>
+                <th width='80'>订单商品</th>
+                <th width='80'>买家信息</th>
+                <th width='80'>订单状态</th>
                 <th width='80'>操作</th>
             </tr>
             </thead>
             <tbody>
-            <?php foreach($list AS $val) { ?>
-            <tr class="text-c">
-                <td><?php echo $val['id']; ?></td>
-                <td><?php echo $val['sum']; ?></td>
-                <td><?php echo $val['des']; ?></td>
-                <td>查看</td>
-                <td><?php echo date('Y-m-d H:i:s', $val['add_time']); ?></td>
-                <td class="f-14 td-manage">
-                    <a style="text-decoration:none" class="ml-5" onClick="freeze('<?php echo site_url(" Persion/del_per/$val[id]");
-                    ?>')" href="javascript:;" title="冻结"><i class="Hui-iconfont">&#xe631;</i></a>
+
+            <tr class="text-c" th:each="order:${orderList}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.orderNum}"></td>
+                <td th:text="${order.sum}"></td>
+                <td th:text="${order.des}"></td>
+                <td>
+                    <a href="javascript:;" th:onclick="'order_goods('+${order.id}+')'">
+                        <span class="label label-primary radius">查看</span>
+                    </a>
                 </td>
+                <td>
+                    <a href="javascript:;" th:onclick="'userInfo('+${order.userId}+')'">
+                        <span class="label label-primary radius">买家详情</span>
+                    </a>
+                </td>
+                <td class="td-status">
+                    <span class="label label-success radius" th:if="${order.status == 0}">待付款</span>
+                    <span class="label label-danger radius" th:if="${order.status == 1}">待发货</span>
+                    <span class="label label-success radius" th:if="${order.status == 2}">待收货</span>
+                    <span class="label label-success radius" th:if="${order.status == 3}">待评价</span>
+                    <span class="label label-success radius" th:if="${order.status == 4}">已完成</span>
+                    <span class="label label-defaunt radius" th:if="${order.status == 5}">订单关闭</span>
+                    <span class="label label-defaunt radius" th:if="${order.status == 6}">用户已删除</span>
+                    <span class="label label-defaunt radius" th:if="${order.status == 7}">申请退款</span>
+                </td>
+                <td class="f-14 td-manage">
+                    <a style="text-decoration:none" th:if="${order.status == 1}" th:onclick="'fahuo('+${order.id}+')'" href="javascript:" title="发货"><i class="Hui-iconfont"></i></a>
+                    <a style="text-decoration:none" class="ml-5" th:if="${order.status == 6}" th:onclick="'del(this,'+${order.id}+')'" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                    <a style="text-decoration:none" class="ml-5" th:if="${order.status == 7}" th:onclick="'tuikuan(this,'+${order.id}+')'" href="javascript:;" title="退款"><i class="Hui-iconfont">&#xe6de;</i></a>
+                </td>
+
             </tr>
-            <?php } ?>
+
             </tbody>
         </table>
+
+        <div id='selfinfo' class="page-container" style='display:none;'>
+            <form action="/admin/Order/fahuo" method="post" class="form form-horizontal"
+                  id="form-article-add">
+                <input type="hidden" value="" name="orderId" id="orderId">
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2"></label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" name="expCode" placeholder="快递公司编码">
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-2"></label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                        <input type="text" class="input-text" name="expressNum" placeholder="快递单号">
+                    </div>
+                </div>
+                <div class="row cl" style='margin-bottom:10px;'>
+                    <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                        <button class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
         <div class="page">
-            <?php echo $pages; ?>
+
         </div>
     </div>
 </div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="/hui/lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="/hui/lib/layer/2.1/layer.js"></script>
+<script type="text/javascript" src="/hui/lib/icheck/jquery.icheck.min.js"></script>
+<script type="text/javascript" src="/hui/lib/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+<script type="text/javascript" src="/hui/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="/hui/lib/jquery.validation/1.14.0/messages_zh.min.js"></script>
+<script type="text/javascript" src="/hui/static/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="/hui/static/h-ui.admin/js/H-ui.admin.js"></script>
+<!--/_footer /作为公共模版分离出去-->
 
-<script type="text/javascript">
+<script type="text/javascript" src="/hui/lib/jquery.contextmenu/jquery.contextmenu.r2.js"></script>
+
+<script type="text/javascript" th:inline="javascript">
+
+    /**
+     * 删除
+     * @param id
+     */
+    function del(obj,id) {
+        layer.confirm('确认要删除吗？', function (index) {
+            $.ajax({
+                type: 'POST',
+                url: '/admin/Order/del_order',
+                data: {
+                    "orderId": id,
+                },
+                dataType: 'text',
+                success: function(data) {
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!', {
+                        icon: 1,
+                        time: 1000
+                    });
+                },
+                error: function(data) {
+                    layer.msg('删除失败!', {
+                        icon: 1,
+                        time: 1000
+                    });
+                    console.log(data);
+                },
+            });
+        });
+    }
+
+    function fahuo(id) {
+        document.getElementById("orderId").value=id;
+        var index = layer.open({
+            type: 5,
+            title: '发货',
+            content: $('#selfinfo').html()
+        });
+        layer.full(index);
+
+    }
+
+    function userInfo(userId) {
+        layer_show('买家信息', '/admin/Order/userInfo?userId='+userId, 600, 300);
+    }
+
+    function order_goods(id) {
+        layer_show('订单商品', '/admin/Order/order_goods?id='+id, 1000, 600);
+    }
+
     /**
      * 添加
      */

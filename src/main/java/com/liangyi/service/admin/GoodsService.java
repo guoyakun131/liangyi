@@ -1,5 +1,6 @@
 package com.liangyi.service.admin;
 
+import com.liangyi.Utils.FileUtil;
 import com.liangyi.config.Config;
 import com.liangyi.entity.Goods;
 import com.liangyi.entity.Img;
@@ -8,6 +9,7 @@ import com.liangyi.mapper.ImgMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -36,18 +38,75 @@ public class GoodsService {
 
     /**
      * 添加商品
+     *
      * @param goods
      * @return
      */
     @Transactional
-    public String addGoods(Goods goods) {
+    public String addGoods(MultipartFile file, Goods goods) {
+        String fileName = file.getOriginalFilename();
         try {
-            goodsMapper.addGoods(goods);
-            return "成功";
+            if (!file.isEmpty()) {
+                FileUtil.uploadFile(file.getBytes(), Config.filePath, fileName);
+                goods.setImg("upload/" + fileName);
+                goodsMapper.addGoods(goods);
+                return "成功";
+            } else {
+                goodsMapper.addGoods(goods);
+                return "保存成功，请及时添加商品图片";
+            }
         } catch (Exception e) {
+            e.printStackTrace();
             return "失败";
         }
+    }
 
+    /**
+     * 商品轮播图添加
+     * @param file
+     * @param goods_id
+     * @return
+     */
+    public String saveImg(MultipartFile file, int goods_id) {
+        try {
+            if (!file.isEmpty()) {
+                String fileName = file.getOriginalFilename();
+                FileUtil.uploadFile(file.getBytes(), Config.filePath, fileName);
+                imgMapper.editImg(goods_id,"upload/"+fileName);
+                return "添加成功";
+            } else {
+                return "文件不得为空！";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "失败";
+        }
+    }
+
+    /**
+     * 保存编辑商品
+     *
+     * @param file
+     * @param goods
+     * @return
+     */
+    @Transactional
+    public String editGoods(MultipartFile file, Goods goods) {
+        String fileName = file.getOriginalFilename();
+        try {
+            if (!file.isEmpty()) {
+                FileUtil.uploadFile(file.getBytes(), Config.filePath, fileName);
+                goods.setImg("upload/" + fileName);
+                goodsMapper.editGoods(goods);
+                return "成功";
+            } else {
+                goodsMapper.editGoodsNoImg(goods);
+                return "成功";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "失败";
+        }
     }
 
     /**
@@ -58,10 +117,8 @@ public class GoodsService {
      */
     public List<Img> imgLsit(int id) {
         List<Img> imgList = imgMapper.imgLsit(id);
-        String imgUrl = Config.url;
         for (Img img : imgList) {
-            imgUrl += img.getImg();
-            img.setImg(imgUrl);
+            img.setImg(Config.url + img.getImg());
         }
         return imgList;
     }

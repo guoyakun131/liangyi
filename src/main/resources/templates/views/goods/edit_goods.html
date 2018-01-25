@@ -29,7 +29,7 @@
 </head>
 <body>
 <div class="page-container">
-    <form action="Goods/save_Goods" method="post" class="form form-horizontal" id="form-article-add"
+    <form action="/admin/Goods/save_editGoods" method="post" class="form form-horizontal" id="form-article-add"
           enctype="multipart/form-data">
         <input type='hidden' th:value="${goods.id}" name='id'/>
         <div class="row cl">
@@ -60,20 +60,28 @@
                        th:value="${goods.nums}" required>
             </div>
         </div>
+
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">商品封面图：</label>
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>图片：</label>
             <div class="formControls col-xs-8 col-sm-9">
-				<!--<span class="btn-upload form-group">
+                <img th:src="@{${goods.img}}" style="width: 400px;height: 300px; padding-top: 10px">
+            </div>
+            <input type='hidden' th:value="${goods.img}" name='img'/>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">更换商品封面：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+				<span class="btn-upload form-group">
 				<input class="input-text upload-url" type="text" name="video_img_url" id="uploadfile-2" readonly
                        datatype="*" nullmsg="请添加logo！" style="width:200px"
-                       th:value="${goods.img}">
+                       value="">
 				<a href="javascript:void();" class="btn btn-primary upload-btn"><i class="Hui-iconfont">&#xe642;</i> 浏览文件</a>
-				<input type="file" name="video_img" class="input-file" multiple>
-				</span>-->
-
-                <img th:src="@{${goods.img}}">
+				<input type="file" name="file" class="input-file" multiple>
+				</span>
             </div>
         </div>
+
+
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">商品类型：</label>
             <div class="formControls col-xs-8 col-sm-9">
@@ -101,18 +109,27 @@
                 </div>
                 <div class="row cl" ><div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
                     <button class="btn btn-primary radius" type="submit"><i class="Hui-iconfont" >&#xe632;</i>保存</button>
-                <!--<button onclick="layer_close();" class="btn btn-default radius"type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>-->
+                <button onclick="layer_close();" class="btn btn-default radius"type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
                 </div>
                 </div>
                 </form>
                 </div>
 
-                <script type = "text/javascript" src="/hui/lib/webuploader/0.1.5/webuploader.min.js" ></script>
 
                 <script type="text/javascript" src="/hui/lib/webuploader/0.1.5/webuploader.min.js"></script>
                 <script type="text/javascript" src="/hui/lib/ueditor/1.4.3/ueditor.config.js"></script>
                 <script type="text/javascript" src="/hui/lib/ueditor/1.4.3/ueditor.all.min.js"></script>
                 <script type="text/javascript" src="/hui/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+
+                <!--_footer 作为公共模版分离出去-->
+                <script type="text/javascript" src="/hui/lib/layer/2.1/layer.js"></script>
+                <script type="text/javascript" src="/hui/lib/icheck/jquery.icheck.min.js"></script>
+                <script type="text/javascript" src="/hui/lib/jquery.validation/1.14.0/jquery.validate.min.js"></script>
+                <script type="text/javascript" src="/hui/lib/jquery.validation/1.14.0/validate-methods.js"></script>
+                <script type="text/javascript" src="/hui/lib/jquery.validation/1.14.0/messages_zh.min.js"></script>
+                <script type="text/javascript" src="/hui/static/h-ui/js/H-ui.js"></script>
+                <script type="text/javascript" src="/hui/static/h-ui.admin/js/H-ui.admin.js"></script>
+                <!--/_footer /作为公共模版分离出去-->
 
                 <script>
                     $(function () {
