@@ -23,9 +23,14 @@ public class Config {
      */
     public static final String MerchantsName = "良一科技";
 
-    public static final String url = "https://localhost/";
+    /**
+     * 服务器图片前缀
+     */
+    public static final String url = "https://qubing.net.cn/";
 
-        public static final String filePath  = "D:\\liangyi\\src\\main\\webapp\\upload\\";
-
+    /**
+     * 图片上传服务器地址
+     */
+    public static final String filePath = "/usr/Java/tomcat/apache-tomcat-8.5.24/webapps/image/upload/";
 
 }

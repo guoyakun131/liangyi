@@ -106,6 +106,12 @@ public class WxPayService {
         return response;
     }
 
+    /**
+     * 支付后通知
+     * @param request
+     * @param response
+     * @throws Exception
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void wxNotify(HttpServletRequest request, HttpServletResponse response) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader((ServletInputStream) request.getInputStream()));

@@ -8,14 +8,14 @@
           content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="/hui/lib/html5.js"></script>
-    <script type="text/javascript" src="/huilib/respond.min.js"></script>
-    <script type="text/javascript" src="/hui/lib/PIE_IE678.js"></script>
+    <script type="text/javascript" th:src="@{/hui/lib/html5.js}"></script>
+    <script type="text/javascript" th:src="@{/hui/lib/respond.min.js}"></script>
+    <script type="text/javascript" th:src="@{/lib/PIE_IE678.js}"></script>
     <![endif]-->
-    <link href="/hui/static/h-ui/css/H-ui.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/hui/static/h-ui.admin/css/H-ui.login.css" rel="stylesheet" type="text/css"/>
-    <link href="/hui/static/h-ui.admin/css/style.css" rel="stylesheet" type="text/css"/>
-    <link href="/hui/lib/Hui-iconfont/1.0.7/iconfont.css" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/hui/static/h-ui/css/H-ui.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/hui/static/h-ui.admin/css/H-ui.login.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/hui/static/h-ui.admin/css/style.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/hui/lib/Hui-iconfont/1.0.7/iconfont.css}" rel="stylesheet" type="text/css"/>
     <!--[if IE 6]>
     <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js"></script>
     <script>DD_belatedPNG.fix('*');</script>
@@ -28,7 +28,7 @@
 <div class="loginWraper">
     <div id="loginform" class="loginBox">
 
-        <form class="form form-horizontal" action="/admin/Login" method="post">
+        <form class="form form-horizontal" th:action="@{/admin/Login}" method="post">
             <div class="row cl">
                 <div class="formControls col-xs-8 col-xs-offset-3">
                     <b style='color:gray'>不存在十全十美的文章，如同不存在彻头彻尾的绝望</b>
@@ -70,8 +70,8 @@
     </div>
 </div>
 <div class="footer">Copyright seaweedman by zjr.</div>
-<script type="text/javascript" src="/hui/lib/jquery/1.9.1/jquery.min.js"></script>
-<script type="text/javascript" src="/hui/static/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" th:src="@{/hui/lib/jquery/1.9.1/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/hui/static/h-ui/js/H-ui.js}"></script>
 <!-- <script>
 var _hmt = _hmt || [];
 (function() {

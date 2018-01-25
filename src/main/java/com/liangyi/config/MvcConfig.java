@@ -2,6 +2,7 @@ package com.liangyi.config;
 
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -17,4 +18,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
         registry.addViewController("/User/add_g").setViewName("views/user/add_g");
     }
 
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
 }

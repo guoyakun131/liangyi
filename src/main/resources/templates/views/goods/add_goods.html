@@ -8,28 +8,28 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="/hui/lib/html5.js"></script>
-    <script type="text/javascript" src="/hui/lib/respond.min.js"></script>
-    <script type="text/javascript" src="/hui/lib/PIE_IE678.js"></script>
+    <script type="text/javascript" th:src="@{/hui/lib/html5.js}"></script>
+    <script type="text/javascript" th:src="@{/hui/lib/respond.min.js}"></script>
+    <script type="text/javascript" th:src="@{/hui/lib/PIE_IE678.js}"></script>
     <![endif]-->
-    <link rel="stylesheet" type="text/css" href="/hui/static/h-ui/css/H-ui.min.css" />
-    <link rel="stylesheet" type="text/css" href="/hui/static/h-ui.admin/css/H-ui.admin.css" />
-    <link rel="stylesheet" type="text/css" href="/hui/lib/Hui-iconfont/1.0.7/iconfont.css" />
-    <link rel="stylesheet" type="text/css" href="/hui/lib/icheck/icheck.css" />
-    <link rel="stylesheet" type="text/css" href="/hui/static/h-ui.admin/skin/orange/skin.css" id="skin" />
-    <link rel="stylesheet" type="text/css" href="/hui/static/h-ui.admin/css/style.css" />
+    <link rel="stylesheet" type="text/css" th:href="@{/hui/static/h-ui/css/H-ui.min.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/hui/static/h-ui.admin/css/H-ui.admin.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/hui/lib/Hui-iconfont/1.0.7/iconfont.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/hui/lib/icheck/icheck.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/hui/static/h-ui.admin/skin/orange/skin.css}" id="skin" />
+    <link rel="stylesheet" type="text/css" th:href="@{/hui/static/h-ui.admin/css/style.css}" />
     <!--[if IE 6]>
     <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
     <script>DD_belatedPNG.fix('*');</script>
     <![endif]-->
     <!--/meta 作为公共模版分离出去-->
 
-    <script type="text/javascript" src="/hui/lib/jquery/1.9.1/jquery.min.js"></script>
-    <link href="/hui/lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css"/>
+    <script type="text/javascript" th:src="@{/hui/lib/jquery/1.9.1/jquery.min.js}"></script>
+    <link th:href="@{/hui/lib/webuploader/0.1.5/webuploader.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div class="page-container">
-    <form action="/admin/Goods/save_Goods" method="post" class="form form-horizontal" id="form-article-add"
+    <form th:action="@{/admin/Goods/save_Goods}" method="post" class="form form-horizontal" id="form-article-add"
           enctype="multipart/form-data">
         <!--<input type='hidden' value="" name='id'/>-->
         <div class="row cl">
@@ -105,19 +105,19 @@
                 </div>
 
 
-                <script type="text/javascript" src="/hui/lib/webuploader/0.1.5/webuploader.min.js"></script>
-                <script type="text/javascript" src="/hui/lib/ueditor/1.4.3/ueditor.config.js"></script>
-                <script type="text/javascript" src="/hui/lib/ueditor/1.4.3/ueditor.all.min.js"></script>
-                <script type="text/javascript" src="/hui/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+                <script type="text/javascript" th:src="@{/hui/lib/webuploader/0.1.5/webuploader.min.js}"></script>
+                <script type="text/javascript" th:src="@{/hui/lib/ueditor/1.4.3/ueditor.config.js}"></script>
+                <script type="text/javascript" th:src="@{/hui/lib/ueditor/1.4.3/ueditor.all.min.js}"></script>
+                <script type="text/javascript" th:src="@{/hui/lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js}"></script>
 
                 <!--_footer 作为公共模版分离出去-->
-                <script type="text/javascript" src="/hui/lib/layer/2.1/layer.js"></script>
-                <script type="text/javascript" src="/hui/lib/icheck/jquery.icheck.min.js"></script>
-                <script type="text/javascript" src="/hui/lib/jquery.validation/1.14.0/jquery.validate.min.js"></script>
-                <script type="text/javascript" src="/hui/lib/jquery.validation/1.14.0/validate-methods.js"></script>
-                <script type="text/javascript" src="/hui/lib/jquery.validation/1.14.0/messages_zh.min.js"></script>
-                <script type="text/javascript" src="/hui/static/h-ui/js/H-ui.js"></script>
-                <script type="text/javascript" src="/hui/static/h-ui.admin/js/H-ui.admin.js"></script>
+                <script type="text/javascript" th:src="@{/hui/lib/layer/2.1/layer.js}"></script>
+                <script type="text/javascript" th:src="@{/hui/lib/icheck/jquery.icheck.min.js}"></script>
+                <script type="text/javascript" th:src="@{/hui/lib/jquery.validation/1.14.0/jquery.validate.min.js}"></script>
+                <script type="text/javascript" th:src="@{/hui/lib/jquery.validation/1.14.0/validate-methods.js}"></script>
+                <script type="text/javascript" th:src="@{/hui/lib/jquery.validation/1.14.0/messages_zh.min.js}"></script>
+                <script type="text/javascript" th:src="@{/hui/static/h-ui/js/H-ui.js}"></script>
+                <script type="text/javascript" th:src="@{/hui/static/h-ui.admin/js/H-ui.admin.js}"></script>
                 <!--/_footer /作为公共模版分离出去-->
 
                 <script>

@@ -38,6 +38,7 @@ public class GoodsController {
     @GetMapping("img_list")
     public String imglist(Integer id, Model model) {
         model.addAttribute("imgList", goodsService.imgLsit(id));
+        model.addAttribute("orderId", id);
         return "views/goods/img_list";
     }
 

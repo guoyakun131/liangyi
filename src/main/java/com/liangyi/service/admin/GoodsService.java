@@ -48,7 +48,7 @@ public class GoodsService {
         try {
             if (!file.isEmpty()) {
                 FileUtil.uploadFile(file.getBytes(), Config.filePath, fileName);
-                goods.setImg("upload/" + fileName);
+                goods.setImg("image/upload/" + fileName);
                 goodsMapper.addGoods(goods);
                 return "成功";
             } else {
@@ -72,7 +72,7 @@ public class GoodsService {
             if (!file.isEmpty()) {
                 String fileName = file.getOriginalFilename();
                 FileUtil.uploadFile(file.getBytes(), Config.filePath, fileName);
-                imgMapper.editImg(goods_id,"upload/"+fileName);
+                imgMapper.editImg(goods_id,"image/upload/"+fileName);
                 return "添加成功";
             } else {
                 return "文件不得为空！";
@@ -96,7 +96,7 @@ public class GoodsService {
         try {
             if (!file.isEmpty()) {
                 FileUtil.uploadFile(file.getBytes(), Config.filePath, fileName);
-                goods.setImg("upload/" + fileName);
+                goods.setImg("image/upload/" + fileName);
                 goodsMapper.editGoods(goods);
                 return "成功";
             } else {
