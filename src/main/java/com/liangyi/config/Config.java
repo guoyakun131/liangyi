@@ -26,11 +26,12 @@ public class Config {
     /**
      * 服务器图片前缀
      */
-    public static final String url = "https://qubing.net.cn/";
+    public static final String url = "https://aicha.net.cn/";
 
     /**
      * 图片上传服务器地址
      */
     public static final String filePath = "/usr/Java/tomcat/apache-tomcat-8.5.24/webapps/image/upload/";
+    //public static final String filePath = "D:\\liangyi\\src\\main\\webapp\\";
 
 }

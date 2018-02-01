@@ -14,14 +14,14 @@ public interface GoodsMapper {
      * @param type
      * @return
      */
-    @Select("SELECT id,img,name,price from goods where type = #{type} order by id desc")
+    @Select("SELECT id,img,name,price,paynums from goods where type = #{type} order by id desc")
     List<Goods> queryGoods(@Param("type")int type);
 
     /**
      * 所有商品列表
      * @return
      */
-    @Select("SELECT id,img,name,price from goods order by id desc")
+    @Select("SELECT id,img,name,price,paynums from goods order by id desc")
     List<Goods> queryGoodsList();
     /**
      * 查询所有商品数量
@@ -112,4 +112,25 @@ public interface GoodsMapper {
      */
     @Delete("delete from goods where id = #{id}")
     void delGoods(int id);
+
+    /**
+     * 生成订单后更新商品数量
+     */
+    @Update("UPDATE goods set nums = nums - #{nums} where id = #{id}")
+    void goodsNums(@Param("nums") long nums,@Param("id") long id);
+
+    /**
+     * 付款人数加1
+     * @param id
+     */
+    @Update("UPDATE goods set paynums = paynums+1 where id = #{id}")
+    void goodsPayNums(int id);
+
+    /**
+     * 支付过的商品id
+     * @param id
+     * @return
+     */
+    @Select("SELECT g.id from `order` o, order_goods og, goods g where o.id = og.order_id and g.id = og.goods_id and `status` != 0 and o.id = #{id}")
+    List<Integer> goodsPay(long id);
 }

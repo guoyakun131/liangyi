@@ -243,7 +243,7 @@ public class ShopService {
      * @param cart_sel
      * @return
      */
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(rollbackFor = Exception.class)
     public boolean addOrder(Order order, String session_id, String cart_sel) {
         try {
             //UserID
@@ -275,6 +275,8 @@ public class ShopService {
             //添加订单商品
             for (Goods goods : orderGoodsList) {
                 goods.setAddTime(add_time);
+                //商品数量更新
+                goodsMapper.goodsNums(goods.getNums(),goods.getId());
                 orderGoodsMapper.addOrderGoods(goods, order.getId());
             }
             //清空生成订单的购物车

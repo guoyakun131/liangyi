@@ -51,6 +51,8 @@ public class Goods {
 
   private List<Img> imgs;
 
+  private int payNums;
+
   public long getId() {
     return id;
   }
@@ -155,5 +157,13 @@ public class Goods {
 
   public void setImgs(List<Img> imgs) {
     this.imgs = imgs;
+  }
+
+  public int getPayNums() {
+    return payNums;
+  }
+
+  public void setPayNums(int payNums) {
+    this.payNums = payNums;
   }
 }

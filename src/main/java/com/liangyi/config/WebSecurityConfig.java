@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 //按顺序，第一个是登出的url，security会拦截这个url进行处理，所以登出不需要我们实现，第二个是登出url，logout告知登陆状态
                 .logoutUrl("/admin/logout").permitAll()
-                .logoutSuccessUrl("/?admin/logout=true");
+                .logoutSuccessUrl("/?logout");
     }
 
     @Override

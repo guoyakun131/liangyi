@@ -50,6 +50,14 @@ public interface OrderMapper {
     void changeOrderStatus(@Param("order_id") long order_id,@Param("userId") int userId,@Param("type") int type);
 
     /**
+     * 退款成功修改状态
+     * @param order_id
+     * @param type
+     */
+    @Update("UPDATE `order` set `status` = #{type} WHERE id = #{order_id}")
+    void  tuikuan(@Param("order_id") long order_id,@Param("type") int type);
+
+    /**
      * 查询需要支付的订单
      * @param order_id
      * @return
@@ -108,4 +116,12 @@ public interface OrderMapper {
      */
     @Delete("delete FROM `order` where id = #{orderId}")
     void delOrder(int orderId);
+
+    /**
+     * 退款订单查询
+     * @param id
+     * @return
+     */
+    @Select("SELECT id,sum,des,express,user_id as userId,order_num as orderNum from `order` where `status` = 7 and id = #{id}")
+    Order refundOrder(int id);
 }

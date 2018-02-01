@@ -5,8 +5,6 @@ import com.liangyi.entity.Admin;
 import com.liangyi.mapper.AdminMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,11 +27,11 @@ public class CustomUserService implements UserDetailsService {
         }
         System.out.println("s:" + s);
         System.out.println("username:" + admin.getUsername() + ";password:" + admin.getPassword());
-//GrantedAuthority是security提供的权限类，
+        //GrantedAuthority是security提供的权限类，
         List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
-//获取角色，放到list里面
-       // getRoles(admin, list);
-//返回包括权限角色的User给security
+        //获取角色，放到list里面
+        // getRoles(admin, list);
+        //返回包括权限角色的User给security
         org.springframework.security.core.userdetails.User auth_user = new
                 org.springframework.security.core.userdetails.User(admin.getUsername(), admin.getPassword(), list);
         return auth_user;

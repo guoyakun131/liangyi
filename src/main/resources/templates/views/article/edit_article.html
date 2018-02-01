@@ -25,86 +25,80 @@
     <!--/meta 作为公共模版分离出去-->
 
     <script type="text/javascript" th:src="@{/hui/lib/jquery/1.9.1/jquery.min.js}"></script>
-<link th:href="@{/hui/lib/webuploader/0.1.5/webuploader.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/hui/lib/webuploader/0.1.5/webuploader.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <div class="page-container">
-    <form th:action="@{/admin/Goods/save_editGoods}" method="post" class="form form-horizontal" id="form-article-add"
+    <form th:action="@{/admin/Article/save_Article}" method="post" class="form form-horizontal" id="form-article-add"
           enctype="multipart/form-data">
-        <input type='hidden' th:value="${goods.id}" name='id'/>
+        <input type='hidden' th:value="${article.id}" name='id'/>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">名称：</label>
+            <label class="form-label col-xs-4 col-sm-2">标题：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" name="name"
-                       th:value="${goods.name}" required>
+                <input type="text" class="input-text" name="title"
+                       th:value="${article.title}" required>
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">价格：</label>
+            <label class="form-label col-xs-4 col-sm-2">作者：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" name="price"
-                       th:value="${goods.price}" required>
+                <input type="text" class="input-text" name="author"
+                       th:value="${article.author}" required>
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">运费：</label>
+            <label class="form-label col-xs-4 col-sm-2">嵌入商品ID：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" name="express"
-                       th:value="${goods.express}" required>
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">数量：</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" name="nums"
-                       th:value="${goods.nums}" required>
+                <input type="text" class="input-text" name="goods"
+                       th:value="${article.goods}" required>
             </div>
         </div>
 
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>图片：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <img th:src="@{${goods.img}}" style="width: 400px;height: 300px; padding-top: 10px">
+                <img th:src="@{${'https://aicha.net.cn/'+article.img}}" style="width: 400px;height: 300px; padding-top: 10px">
             </div>
-            <input type='hidden' th:value="${goods.img}" name='img'/>
         </div>
+
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">更换商品封面：</label>
+            <label class="form-label col-xs-4 col-sm-2">图文封面图：</label>
             <div class="formControls col-xs-8 col-sm-9">
-				<span class="btn-upload form-group">
-				<input class="input-text upload-url" type="text" name="video_img_url" id="uploadfile-2" readonly
-                       datatype="*" nullmsg="请添加logo！" style="width:200px"
-                       value="">
-				<a href="javascript:void();" class="btn btn-primary upload-btn"><i class="Hui-iconfont">&#xe642;</i> 浏览文件</a>
-				<input type="file" name="file" class="input-file" multiple>
-				</span>
+                <span class="btn-upload form-group">
+                <input class="input-text upload-url" type="text" name="video_img_url" id="uploadfile-2" readonly datatype="*" nullmsg="请添加logo！"
+                       style="width:200px" value=""/>
+                <a href="javascript:void();" class="btn btn-primary upload-btn"><i class="Hui-iconfont">&#xe642;</i> 浏览文件</a>
+                <input type="file" name="file" class="input-file" multiple/>
+                </span>
             </div>
         </div>
-
-
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">商品类型：</label>
+            <label class="form-label col-xs-4 col-sm-2">图文类型：</label>
             <div class="formControls col-xs-8 col-sm-9">
 				<span class="select-box">
 				  <select class="select" size="1" name="type">
-				    <option value="0" th:selected="${goods.type == '0'}">普通</option>
-				    <option value="1" th:selected="${goods.type == '1'}">上新</option>
-				    <option value="2" th:selected="${goods.type == '2'}">热销</option>
+				    <option value="1" th:selected="${article.type == '1'}">美丽说</option>
+				    <option value="2" th:selected="${article.type == '2'}">激素脸</option>
+                      <option value="3" th:selected="${article.type == '3'}">红血丝</option>
+				    <option value="4" th:selected="${article.type == '4'}">扁平疮</option>
+				    <option value="5" th:selected="${article.type == '5'}">青春痘</option>
+                      <option value="6" th:selected="${article.type == '6'}">痤疮</option>
+				    <option value="7" th:selected="${article.type == '7'}">偏头痛</option>
+				    <option value="8" th:selected="${article.type == '8'}">黄褐斑</option>
+                      <option value="9" th:selected="${article.type == '9'}">银屑病</option>
+				    <option value="10" th:selected="${article.type == '10'}">白癜风</option>
+				    <option value="11" th:selected="${article.type == '11'}">玫瑰糠疹</option>
+                      <option value="12" th:selected="${article.type == '12'}">药疹</option>
+				    <option value="13" th:selected="${article.type == '13'}">皮肤癣</option>
+				    <option value="14" th:selected="${article.type == '14'}">杂病论</option>
 				  </select>
 				</span>
             </div>
         </div>
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">商品规格（以半角逗号隔开）：</label>
+            <label class="form-label col-xs-4 col-sm-2">图文内容</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" name="spec"
-                       th:value="${goods.spec}"  required>
-            </div>
-        </div>
-        <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">商品描述</label>
-            <div class="formControls col-xs-8 col-sm-9">
-                <script id="editor" name='content' type="text/plain" style="width:100%;height:400px;" th:utext="${goods.content}"></script>
+                <script id="editor" name='content' type="text/plain" style="width:100%;height:400px;" th:utext="${article.content}"></script>
                 </div>
                 </div>
                 <div class="row cl" ><div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
@@ -132,7 +126,6 @@
                 <!--/_footer /作为公共模版分离出去-->
 
                 <script>
-
                     var ue = UE.getEditor('editor');
                     UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
                     UE.Editor.prototype.getActionUrl = function(action) {
@@ -142,6 +135,7 @@
                             return this._bkGetActionUrl.call(this, action);
                         }
                     }
+
 
                     $(function () {
                         var tag = "<?php echo $this->input->get('tag') ?>";

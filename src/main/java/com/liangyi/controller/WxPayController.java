@@ -1,6 +1,5 @@
 package com.liangyi.controller;
 
-import com.liangyi.mapper.OrderMapper;
 import com.liangyi.service.WxPayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,11 +22,9 @@ public class WxPayController {
         Map<String, String> map = null;
         try {
             map = wxPayService.order(request, session_id, order_id);
-            //map.put("isError",true);
             return map;
         } catch (Exception e) {
             e.printStackTrace();
-            //map.put("isError", false);
             return map;
         }
     }

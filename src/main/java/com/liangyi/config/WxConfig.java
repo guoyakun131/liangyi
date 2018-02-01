@@ -1,8 +1,10 @@
 package com.liangyi.config;
 
 import com.github.wxpay.sdk.WXPayConfig;
-import org.springframework.context.annotation.Bean;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 /**
@@ -30,9 +32,19 @@ public class WxConfig implements WXPayConfig {
         return "handanliangyikejiyouxiangongsi88";
     }
 
+    /**
+     * 获取商户证书内容
+     *
+     * @return 商户证书内容
+     */
     @Override
     public InputStream getCertStream() {
-        return null;
+        try {
+            return new FileInputStream(new File("/usr/Java/cert/apiclient_cert.p12"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

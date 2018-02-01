@@ -6,10 +6,9 @@ import com.liangyi.Utils.IpUtil;
 import com.liangyi.Utils.PayUtil;
 import com.liangyi.config.Config;
 import com.liangyi.config.WxConfig;
-import com.liangyi.entity.Order;
+import com.liangyi.entity.Article;
 import com.liangyi.entity.User;
-import com.liangyi.mapper.GoodsMapper;
-import com.liangyi.mapper.OrderMapper;
+import com.liangyi.mapper.ArticleMapper;
 import com.liangyi.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,51 +27,93 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 图文
+ */
 @Service
-public class WxPayService {
+public class ArticleService {
+
+    @Autowired
+    private ArticleMapper articleMapper;
+
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private OrderMapper orderMapper;
+    private int article_id;
+    /**
+     * 查询图文列表
+     *
+     * @param type
+     * @return
+     */
+    public List<Article> articlesList(int type) {
+        if (type == 0) {
+            return articleMapper.article();
+        } else {
+            return articleMapper.articleType(type);
+        }
 
-    @Autowired
-    private GoodsMapper goodsMapper;
+    }
 
-    @Autowired
-    private Order order;
-    @Autowired
-    private User user;
-    @Transactional(propagation = Propagation.REQUIRED)
-    public Map<String, String> order(HttpServletRequest request, String session_id, int order_id) throws Exception {
+    /**
+     * 图文详情
+     *
+     * @param id
+     * @return
+     */
+    public Map<String, Object> article(int id) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("article", articleMapper.articleInfo(id));
+        map.put("goods", articleMapper.goods(id));
+        map.put("user", articleMapper.avatar(id));
+        return map;
+    }
 
-        user = userMapper.userId(session_id);
+
+    /**
+     * 浏览
+     *
+     * @param session_id
+     * @param id
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public void userBrowse(String session_id, int id) {
+        User user = userMapper.userId(session_id);
+        //流量加1
+        articleMapper.browse(id);
+        //查看用户是否有浏览记录
+        if (articleMapper.isUserBrowse(user.getId(), id) == null || articleMapper.isUserBrowse(user.getId(), id) == 0) {
+            articleMapper.userBrowse(user.getId(), id);
+        }
+    }
+
+
+    public Map<String, String> order(HttpServletRequest request, String session_id, int id, String jine) throws Exception {
+        article_id = id;
 //订单详情
-        order = orderMapper.orderInfo(order_id);
-        double d = order.getSum()*100;
+        double shangjin = Double.valueOf(jine);
+        double d = shangjin * 100;
         int i = (new Double(d)).intValue();
         System.out.println(d);
         String sum = String.valueOf(i);
-        System.out.println("sum:"+sum);
-        System.out.println(order);
+        System.out.println("sum:" + sum);
         WxConfig wxConfig = new WxConfig();
         WXPay wxPay = new WXPay(wxConfig);
-        //Date d = new Date();
-        //SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         //openId
         String openid = userMapper.openId(session_id);
         HashMap<String, String> data = new HashMap<>();
         data.put("appid", wxConfig.getAppID());
         data.put("openid", openid);
-        data.put("body", Config.MerchantsName + "-美妆");
-        data.put("out_trade_no", order.getOrderNum());
+        data.put("body", Config.MerchantsName + "-打赏");
+        data.put("out_trade_no", sdf.format(date).toString());
         data.put("device_info", "");
         data.put("fee_type", "CNY");
         data.put("total_fee", sum);
         data.put("spbill_create_ip", IpUtil.getIpAddr(request));
-        data.put("notify_url", "https://qubing.net.cn/ly/api/wxPay/notify");
+        data.put("notify_url", "https://qubing.net.cn/ly/api/article/notify");
         data.put("trade_type", "JSAPI");
-        //data.put("nonce_str", RandomStringUtils.randomAlphanumeric(32));//随机数
         System.out.println("data:" + data);
         Map<String, String> resp = null;
         try {
@@ -141,14 +182,8 @@ public class WxPayService {
             // 签名正确
             // 进行处理。
             // 注意特殊情况：订单已经退款，但收到了支付结果成功的通知，不应把商户侧订单状态从退款改成支付成功
+            articleMapper.bounty(article_id);
             // 通知微信服务器已经支付成功
-            System.out.println("orderID:"+order.getId()+"--userId:"+user.getId());
-            orderMapper.changeOrderStatus(order.getId(),user.getId(),1);
-            List<Integer> goodsId =  goodsMapper.goodsPay(order.getId());
-            for (Integer id: goodsId) {
-                System.out.println("id:"+id);
-                goodsMapper.goodsPayNums(id);
-            }
             resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
                     + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
 
@@ -163,5 +198,4 @@ public class WxPayService {
         out.flush();
         out.close();
     }
-
 }

@@ -121,6 +121,17 @@
                 <!--/_footer /作为公共模版分离出去-->
 
                 <script>
+                    var ue = UE.getEditor('editor');
+                    UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
+                    UE.Editor.prototype.getActionUrl = function(action) {
+                        if (action == 'uploadimage' || action == 'uploadscrawl' || action == 'uploadimage') {
+                            return 'https://aicha.net.cn/ly/admin/upload'; //在这里返回我们实际的上传图片地址
+                        } else {
+                            return this._bkGetActionUrl.call(this, action);
+                        }
+                    }
+
+
                     $(function () {
                         var tag = "<?php echo $this->input->get('tag') ?>";
                         if (tag == 1) {
