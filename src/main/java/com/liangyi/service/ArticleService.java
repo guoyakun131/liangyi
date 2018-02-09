@@ -40,6 +40,20 @@ public class ArticleService {
     private UserMapper userMapper;
 
     private int article_id;
+
+    /**
+     * 分类名
+     * @return
+     */
+    public List<Map<String,Object>> typeNameList(){
+        List<Map<String,Object>> list =  articleMapper.typeNameList();
+        int i = 0;
+        for (Map map : list) {
+            map.put("current",i++);
+        }
+        return list;
+    }
+
     /**
      * 查询图文列表
      *

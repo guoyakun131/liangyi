@@ -19,6 +19,48 @@ public class ArticleAdminController {
     private ArticleAdminService articleService;
 
     /**
+     * 分类名列表
+     *
+     * @return
+     */
+    @GetMapping("typeName")
+    public String adminTypeNameList(Model model) {
+        model.addAttribute("typeNameList", articleService.adminTypeNameList());
+        return "views/article/typeName";
+    }
+
+    @GetMapping("up_typeName")
+    public String EnditType(Integer id, Model model) {
+        model.addAttribute("typeName", articleService.EnditTypeName(id));
+        model.addAttribute("typeNameId", id);
+        return "views/article/up_typeName";
+    }
+
+    /**
+     * 保存分类名
+     *
+     * @param typeName
+     * @return
+     */
+    @PostMapping("save_typeName")
+    @ResponseBody
+    public String saveTypeName(Integer id, String typeName) {
+        return articleService.saveTypeName(id, typeName);
+    }
+
+    /**
+     * 删除分类名
+     *
+     * @param id
+     * @return
+     */
+    @PostMapping("del_typeName")
+    @ResponseBody
+    public String delTypeName(Integer id) {
+        return articleService.delTypeName(id);
+    }
+
+    /**
      * 图文列表
      *
      * @param model
@@ -41,6 +83,19 @@ public class ArticleAdminController {
     @ResponseBody
     public String saveArticle(Article article, @RequestParam("file") MultipartFile file) {
         return articleService.saveArticle(article, file);
+    }
+
+    /**
+     * 更新
+     *
+     * @param article
+     * @param file
+     * @return
+     */
+    @PostMapping("save_ArticleEdit")
+    @ResponseBody
+    public String saveArticleEdit(Article article, @RequestParam("file") MultipartFile file) {
+        return articleService.saveArticleEdit(article, file);
     }
 
     /**
@@ -70,6 +125,7 @@ public class ArticleAdminController {
 
     /**
      * 编辑查询
+     *
      * @param id
      * @param model
      * @return

@@ -22,8 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,8 +55,6 @@ public class WxPayService {
         System.out.println(order);
         WxConfig wxConfig = new WxConfig();
         WXPay wxPay = new WXPay(wxConfig);
-        //Date d = new Date();
-        //SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         //openId
         String openid = userMapper.openId(session_id);
         HashMap<String, String> data = new HashMap<>();

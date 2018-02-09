@@ -7,18 +7,69 @@ import com.liangyi.mapper.ArticleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ArticleAdminService {
 
     @Autowired
     private ArticleMapper articleMapper;
+
+    /***
+     * 后台查询分类名列表
+     * @return
+     */
+    public List<Map<String, Object>> adminTypeNameList() {
+        return articleMapper.adminTypeNameList();
+    }
+
+    /**
+     * 保存分类名
+     * @param id
+     * @param typeName
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public String saveTypeName(Integer id, String typeName) {
+        if (id == null) {
+            articleMapper.addTypeName(typeName);
+            return "保存成功";
+        } else {
+            articleMapper.upTypeName(id, typeName);
+            return "修改成功";
+        }
+    }
+
+    /**
+     * 删除分类名
+     * @param id
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public String delTypeName(Integer id){
+        try{
+            articleMapper.delTypeName(id);
+            return "成功";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "失败";
+        }
+
+    }
+
+    /**
+     * 编辑查询
+     * @param id
+     * @return
+     */
+    public String EnditTypeName(Integer id){
+        return articleMapper.EnditType(id);
+    }
 
     /**
      * 后台图文列表
@@ -49,12 +100,41 @@ public class ArticleAdminService {
                 articleMapper.saveArticle(article);
                 return "添加成功";
             } else {
-                articleMapper.updateArticle(article);
-                return "成功";
+                articleMapper.saveArticleOnImg(article);
+                return "添加成功,请上传图片！";
             }
         } catch (Exception e) {
             e.printStackTrace();
             return "添加失败";
+        }
+    }
+
+    /**
+     * 更新
+     *
+     * @param article
+     * @param file
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public String saveArticleEdit(Article article, MultipartFile file) {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        article.setTime(sdf.format(date).toString());
+        try {
+            if (!file.isEmpty()) {
+                String fileName = file.getOriginalFilename();
+                FileUtil.uploadFile(file.getBytes(), Config.filePath, fileName);
+                article.setImg("image/upload/" + fileName);
+                articleMapper.updateArticle(article);
+                return "修改成功";
+            } else {
+                articleMapper.updateArticleOnImg(article);
+                return "修改成功";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "失败";
         }
     }
 

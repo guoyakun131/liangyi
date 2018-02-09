@@ -29,7 +29,7 @@
 </head>
 <body>
 <div class="page-container">
-    <form th:action="@{/admin/Article/save_Article}" method="post" class="form form-horizontal" id="form-article-add"
+    <form th:action="@{/admin/Article/save_ArticleEdit}" method="post" class="form form-horizontal" id="form-article-add"
           enctype="multipart/form-data">
         <input type='hidden' th:value="${article.id}" name='id'/>
         <div class="row cl">
@@ -77,30 +77,51 @@
             <div class="formControls col-xs-8 col-sm-9">
 				<span class="select-box">
 				  <select class="select" size="1" name="type">
-				    <option value="1" th:selected="${article.type == '1'}">美丽说</option>
-				    <option value="2" th:selected="${article.type == '2'}">激素脸</option>
-                      <option value="3" th:selected="${article.type == '3'}">红血丝</option>
-				    <option value="4" th:selected="${article.type == '4'}">扁平疮</option>
-				    <option value="5" th:selected="${article.type == '5'}">青春痘</option>
-                      <option value="6" th:selected="${article.type == '6'}">痤疮</option>
-				    <option value="7" th:selected="${article.type == '7'}">偏头痛</option>
-				    <option value="8" th:selected="${article.type == '8'}">黄褐斑</option>
-                      <option value="9" th:selected="${article.type == '9'}">银屑病</option>
-				    <option value="10" th:selected="${article.type == '10'}">白癜风</option>
-				    <option value="11" th:selected="${article.type == '11'}">玫瑰糠疹</option>
-                      <option value="12" th:selected="${article.type == '12'}">药疹</option>
-				    <option value="13" th:selected="${article.type == '13'}">皮肤癣</option>
-				    <option value="14" th:selected="${article.type == '14'}">杂病论</option>
+				    <option value="1" th:selected="${article.type == 1}">祛痘</option>
+				    <option value="2" th:selected="${article.type == 2}">痘印</option>
+                      <option value="3" th:selected="${article.type == 3}">痘痕</option>
+				    <option value="4" th:selected="${article.type == 4}">痘坑</option>
+				    <option value="5" th:selected="${article.type == 5}">色斑</option>
+                      <option value="6" th:selected="${article.type == 6}">祛皱</option>
+				    <option value="7" th:selected="${article.type == 7}">美甲</option>
+				    <option value="8" th:selected="${article.type == 8}">美眉</option>
+                      <option value="9" th:selected="${article.type == 9}">瘦身</option>
+				    <option value="10" th:selected="${article.type == 10}">美臀</option>
+				    <option value="11" th:selected="${article.type == 11}">美白</option>
+                      <option value="12" th:selected="${article.type == 12}">亮肤</option>
+				    <option value="13" th:selected="${article.type == 13}">美腿</option>
+				    <option value="14" th:selected="${article.type == 14}">美睫</option>
 				  </select>
 				</span>
             </div>
         </div>
+
+
+
         <div class="row cl">
             <label class="form-label col-xs-4 col-sm-2">图文内容</label>
             <div class="formControls col-xs-8 col-sm-9">
                 <script id="editor" name='content' type="text/plain" style="width:100%;height:400px;" th:utext="${article.content}"></script>
                 </div>
                 </div>
+
+                <div class="row cl" th:if="${article.type == 1}">
+                    <label class="form-label col-xs-4 col-sm-2">标题：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" name="zw"
+                th:value="${article.zw}" required>
+                </div>
+                </div>
+
+
+                <div class="row cl" th:if="${article.type == 1}">
+                    <label class="form-label col-xs-4 col-sm-2">内容</label>
+                    <div class="formControls col-xs-8 col-sm-9">
+                    <script id="editors" name='zws' type="text/plain" style="width:100%;height:400px;" th:utext="${article.zws}"></script>
+            </div>
+        </div>
+
+
                 <div class="row cl" ><div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
                     <button class="btn btn-primary radius" type="submit"><i class="Hui-iconfont" >&#xe632;</i>保存</button>
                 <button onclick="layer_close();" class="btn btn-default radius"type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
@@ -127,6 +148,7 @@
 
                 <script>
                     var ue = UE.getEditor('editor');
+                    var ues = UE.getEditor('editors');
                     UE.Editor.prototype._bkGetActionUrl = UE.Editor.prototype.getActionUrl;
                     UE.Editor.prototype.getActionUrl = function(action) {
                         if (action == 'uploadimage' || action == 'uploadscrawl' || action == 'uploadimage') {

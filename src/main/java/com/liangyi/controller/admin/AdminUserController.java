@@ -1,6 +1,5 @@
 package com.liangyi.controller.admin;
 
-import com.liangyi.service.UserService;
 import com.liangyi.service.admin.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

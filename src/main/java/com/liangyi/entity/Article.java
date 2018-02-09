@@ -45,6 +45,10 @@ public class Article {
 
     private int state;
 
+    private String zw;
+
+    private String zws;
+
     public int getId() {
         return id;
     }
@@ -131,6 +135,22 @@ public class Article {
 
     public void setState(int state) {
         this.state = state;
+    }
+
+    public String getZw() {
+        return zw;
+    }
+
+    public void setZw(String zw) {
+        this.zw = zw;
+    }
+
+    public String getZws() {
+        return zws;
+    }
+
+    public void setZws(String zws) {
+        this.zws = zws;
     }
 
     @Override

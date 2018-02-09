@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,6 +21,15 @@ public class ArticleController {
 
     @Autowired
     private ArticleService articleService;
+
+    /**
+     * 分类名
+     * @return
+     */
+    @PostMapping("typeNameList")
+    public List<Map<String,Object>> typeNameList(){
+        return articleService.typeNameList();
+    }
 
     /**
      * 图文列表

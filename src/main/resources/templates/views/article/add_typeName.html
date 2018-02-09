@@ -30,12 +30,12 @@
 </head>
 <body>
 <div class="page-container">
-    <form th:action="@{/User/save_g}" method="post" class="form form-horizontal" id="form-article-add">
+    <form th:action="@{/admin/Article/save_typeName}" method="post" class="form form-horizontal" id="form-article-add">
         <!--<input type='hidden' value="" name='id'/>-->
         <div class="row cl">
-            <label class="form-label col-xs-4 col-sm-2">通知：</label>
+            <label class="form-label col-xs-4 col-sm-2">分类名：</label>
             <div class="formControls col-xs-8 col-sm-9">
-                <input type="text" class="input-text" name="text"
+                <input type="text" class="input-text" name="typeName"
                        value="" required>
             </div>
         </div>

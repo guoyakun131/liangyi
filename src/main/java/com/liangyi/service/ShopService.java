@@ -1,6 +1,5 @@
 package com.liangyi.service;
 
-import com.liangyi.Utils.TestRandom;
 import com.liangyi.entity.*;
 import com.liangyi.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
